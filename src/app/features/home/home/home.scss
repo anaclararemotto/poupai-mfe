@@ -12,6 +12,13 @@
       background-color: $blue-500;
       &__info-actions {
         display: flex;
+
+        &__actions{
+          width: 50%;
+        }
+        &__info{
+          width: 50%;
+        }
       }
     }
   }
