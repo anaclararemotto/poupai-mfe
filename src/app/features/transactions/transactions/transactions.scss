@@ -2,17 +2,13 @@
 
 .transactions {
   padding: 3.125rem 1.875rem;
-&__actions{
-        display: none;
-    }
+
 }
 
 @include respond(md) {
   .transactions {
     padding: 0px 3.125rem;
-    &__actions{
-        display: block;
-    }
+   
     &__button{
         display: none;
     }
