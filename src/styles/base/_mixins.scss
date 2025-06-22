@@ -1,0 +1,116 @@
+@use 'variables' as *;
+
+//scrollbar
+@mixin hiddenScrollbar{
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+//Flexbox
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin flex-end {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+//Fonts
+@mixin typography(
+  $font-family: "Poppins",
+  $font-size,
+  $font-weight: normal,
+  $line-height: 1.5,
+  $letter-spacing: normal,
+  $text-transform: none
+) {
+  font-family: $font-family;
+  font-size: $font-size;
+  font-weight: $font-weight;
+  line-height: $line-height;
+}
+
+@mixin font-heading-1 {
+  @include typography(var($font-poppins), 3.75rem, 700, 150%);
+}
+
+@mixin font-heading-2 {
+  @include typography(var($font-poppins), 3rem, 700, 150%);
+}
+
+@mixin font-heading-3 {
+  @include typography(var($font-poppins), 2.25rem, 600, 150%);
+}
+
+@mixin font-heading-4 {
+  @include typography(var($font-poppins), 1.5rem, 600, 150%);
+}
+
+@mixin font-heading-5 {
+  @include typography(var($font-poppins), 1.125rem, 500, 150%);
+}
+
+@mixin font-heading-6 {
+  @include typography(var($font-poppins), 1.125rem, 600, 150%);
+}
+
+@mixin font-subtitle-1 {
+  @include typography(var($font-poppins), 1.875rem, 500, 150);
+}
+
+@mixin font-subtitle-2 {
+  @include typography(var($font-poppins), 1.5rem, 500, 150%);
+}
+
+@mixin font-body-1 {
+  @include typography(var($font-poppins), 1.5rem, 400, 150%);
+}
+
+@mixin font-body-2 {
+  @include typography(var($font-poppins), 1rem, 400, 150%);
+}
+
+@mixin font-body-3 {
+  @include typography(var($font-poppins), 0.875rem, 400, 150%);
+}
+
+@mixin font-button {
+  @include typography(var($font-poppins), 1rem, 500, 150%);
+}
+
+// Responsive
+@mixin respond($breakpoint) {
+  @if $breakpoint == xs {
+    @content;
+  } @else if $breakpoint == sm {
+    @media only screen and (min-width: $sm) {
+      @content;
+    }
+  } @else if $breakpoint == md {
+    @media only screen and (min-width: $md) {
+      @content;
+    }
+  } @else if $breakpoint == lg {
+    @media only screen and (min-width: $lg) {
+      @content;
+    }
+  } @else if $breakpoint == xl {
+    @media only screen and (min-width: $xl) {
+      @content;
+    }
+  } @else {
+    @error "Breakpoints possiveis: xs, sm, md, lg ou xl.";
+  }
+}
+

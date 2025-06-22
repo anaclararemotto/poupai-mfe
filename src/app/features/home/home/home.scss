@@ -1,0 +1,31 @@
+@use "../../../../styles/base/index" as *;
+
+.home {
+  padding: 3.125rem 1.875rem;
+}
+
+@include respond(md) {
+  .home {
+    padding: 0px 3.125rem;
+    &__content {
+      border-radius: 16px;
+      background-color: $blue-500;
+      padding: 20px;
+      &__info-actions {
+        display: flex;
+
+        &__actions{
+          width: 50%;
+        }
+        &__info{
+          width: 50%;
+        }
+      }
+    }
+  }
+}
+@include respond(lg) {
+  .home {
+    padding: 0px 10.625rem;
+  }
+}
