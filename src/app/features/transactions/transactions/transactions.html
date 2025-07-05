@@ -1,11 +1,22 @@
-<app-navbar/>
+<app-navbar />
 <section class="transactions">
   <app-transactions-account />
   <app-time-filter />
-  <app-card-transactions />
-  <app-card-transactions />
-  <app-card-transactions />
-  <app-card-transactions />
-  <app-transactions-button class="transactions__button"/>
+  <app-card-transactions
+    *ngFor="let t of transactions"
+    [transaction]="t"
+    (edit)="openEditModal($event)"
+  >
+  </app-card-transactions>
+
+  <app-modal-edit
+    *ngIf="selectedTransaction"
+    [show]="true"
+    [tipo]="selectedTransaction.tipo"
+    [transaction]="selectedTransaction"
+    (close)="closeModal()"
+  ></app-modal-edit>
+
+  <app-transactions-button class="transactions__button" />
 </section>
-<app-footer/>
+<app-footer />
