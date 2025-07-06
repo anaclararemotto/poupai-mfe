@@ -1,0 +1,13 @@
+@use "../../../styles/base/index" as *;
+
+.transactions {
+  @include flex-center;
+  &__button {
+    background-color: $blue-500;
+    width: 80%;
+    color: $white;
+    font-family: $font-poppins;
+    position: fixed;
+    bottom: 3.125rem;
+  }
+}
