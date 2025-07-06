@@ -8,6 +8,7 @@ import { Navbar } from '../../../shared/navbar/navbar';
 import { TimeFilter } from '../../../shared/time-filter/time-filter';
 import { TransactionsButton } from '../../../shared/transactions-button/transactions-button';
 import { TransactionsAccount } from '../transactions-account/transactions-account';
+import { ModalView } from '../../../shared/modal-view/modal-view';
 
 @Component({
   selector: 'app-transactions',
@@ -20,6 +21,7 @@ import { TransactionsAccount } from '../transactions-account/transactions-accoun
     Footer,
     ModalEdit,
     CommonModule,
+    ModalView,
   ],
   templateUrl: './transactions.html',
   styleUrl: './transactions.scss',
@@ -28,6 +30,8 @@ export class Transactions implements OnInit {
   api = inject(ApiService);
   transactions: any[] = [];
   selectedTransaction: any = null;
+  showEditModal = false;
+  showViewModal = false;
 
   ngOnInit() {
     this.api.getTransactions().subscribe((res) => {
@@ -40,11 +44,27 @@ export class Transactions implements OnInit {
     });
   }
 
-  openEditModal(t: any) {
-    this.selectedTransaction = t;
+  openEditModal(transaction: any) {
+    this.selectedTransaction = transaction;
+    this.showEditModal = true;
+    this.showViewModal = false;
   }
 
-  closeModal() {
+  closeEditModal() {
+    this.showEditModal = false;
+    this.selectedTransaction = null;
+  }
+
+  openViewModal(transaction: any) {
+  console.log('Abrindo modal View com transaction:', transaction);
+  this.selectedTransaction = transaction;
+  this.showViewModal = true;
+  this.showEditModal = false;
+}
+
+
+  closeViewModal() {
+    this.showViewModal = false;
     this.selectedTransaction = null;
   }
 }

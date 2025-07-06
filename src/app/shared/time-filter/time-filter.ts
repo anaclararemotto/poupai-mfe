@@ -20,7 +20,6 @@ export class TimeFilter {
   ];
 
   selectOption(index: number): void {
-  console.log('Selecionado:', index);
   this.selectedIndex = index;
 }
 }

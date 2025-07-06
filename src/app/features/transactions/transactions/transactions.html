@@ -6,17 +6,26 @@
     *ngFor="let t of transactions"
     [transaction]="t"
     (edit)="openEditModal($event)"
+    (view)="openViewModal($event)"
   >
   </app-card-transactions>
 
   <app-modal-edit
-    *ngIf="selectedTransaction"
+    *ngIf="showEditModal"
     [show]="true"
-    [tipo]="selectedTransaction.tipo"
+    [tipo]="selectedTransaction?.tipo"
     [transaction]="selectedTransaction"
-    [transacaoId]="selectedTransaction?._id" 
-    (close)="closeModal()"
+    [transacaoId]="selectedTransaction?._id"
+    (close)="closeEditModal()"
   ></app-modal-edit>
+  <app-modal-view
+  *ngIf="showViewModal"
+  [show]="true"
+  [tipo]="selectedTransaction?.tipo"
+  [selectedTransaction]="selectedTransaction"
+  (close)="closeViewModal()"
+></app-modal-view>
+
 
   <app-transactions-button class="transactions__button" />
 </section>

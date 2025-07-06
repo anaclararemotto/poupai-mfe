@@ -11,12 +11,19 @@ import { Categoria } from '../../core/services/categoria.services';
 export class CardTransactions {
   @Input() transaction: any;
   @Output() edit = new EventEmitter<any>();
+  @Output() view = new EventEmitter<any>();
 
   categorias: Categoria[] = [];
 
   onEdit() {
     this.edit.emit(this.transaction);
   }
+
+  onView() {
+  this.view.emit(this.transaction);
+}
+
+
 
   getIconClass(tipo: string): string {
     switch (tipo) {
@@ -37,8 +44,6 @@ export class CardTransactions {
   }
 
   getBancoDisplay(transaction: any): string {
-    console.log('Categoria recebida no card:', this.transaction.categoria);
-    console.log('Transação:', this.transaction);
     if (transaction.tipo === 'transferencia') {
       return `${transaction.bancoOrigem?.nome || ''} → ${
         transaction.bancoDestino?.nome || ''
