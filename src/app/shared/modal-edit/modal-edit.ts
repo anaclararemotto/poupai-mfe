@@ -3,6 +3,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { ApiService } from '../../core/services/api.service';
+import {
+  Categoria,
+  CategoriaService,
+} from '../../core/services/categoria.services';
 
 @Component({
   selector: 'app-modal-edit',
@@ -14,29 +18,60 @@ import { ApiService } from '../../core/services/api.service';
 export class ModalEdit implements OnInit {
   @Input() show = false;
   @Input() tipo: string | null = null;
-  @Input() transaction: any = null;
   @Output() close = new EventEmitter<void>();
+  @Input() transacaoId!: string;
+  @Input() transaction: any = null;
 
   selectedTransaction: any = null;
 
   banks: any[] = [];
-  constructor(private apiService: ApiService) {}
+  categorias: Categoria[] = [];
 
-  ngOnInit() {
-    this.apiService.getBanks().subscribe((res) => {
-      this.banks = res;
-    });
+  constructor(
+    private apiService: ApiService,
+    private categoriaService: CategoriaService
+  ) {}
 
-    if (this.transaction) {
+ ngOnInit() {
+  let bancosCarregados = false;
+  let categoriasCarregadas = false;
+
+  const montarTransacao = () => {
+    if (bancosCarregados && categoriasCarregadas && this.transaction) {
       this.selectedTransaction = {
         ...this.transaction,
+        bancoOrigem: this.transaction.bancoOrigem?._id ?? null,
+        bancoDestino: this.transaction.bancoDestino?._id ?? null,
+        categoria: this.transaction.categoria?._id ?? null,
         valor: Number(this.transaction.valor).toFixed(2),
         data: this.formatDate(this.transaction.data),
-        banco: this.transaction.banco ?? '',
-        bancoOrigem: Number(this.transaction.bancoOrigem),
       };
     }
-  }
+  };
+
+  this.apiService.getBanks().subscribe((res) => {
+    this.banks = res;
+    bancosCarregados = true;
+    montarTransacao();
+  });
+
+  this.categoriaService.listarCategorias().subscribe({
+    next: (cats) => {
+      if (this.tipo === 'despesa') {
+        this.categorias = cats.filter((cat) => cat.tipo === 'despesa');
+      } else if (this.tipo === 'receita') {
+        this.categorias = cats.filter((cat) => cat.tipo === 'receita');
+      } else {
+        this.categorias = cats;
+      }
+
+      categoriasCarregadas = true;
+      montarTransacao();
+    },
+    error: (err) => console.error('Erro ao carregar categorias', err),
+  });
+}
+
 
   private formatDate(date: string | Date): string {
     const d = new Date(date);

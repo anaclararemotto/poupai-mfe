@@ -4,8 +4,9 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  http = inject(HttpClient);
   private baseUrl = 'http://localhost:4000';
+
+  constructor(private http: HttpClient) {}
 
   getTransactions(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/transacoes`);
@@ -14,4 +15,8 @@ export class ApiService {
   getBanks(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/banco`);
   }
+
+  getCategories() {
+  return this.http.get<any[]>('/categorias');
+}
 }

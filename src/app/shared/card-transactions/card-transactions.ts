@@ -1,5 +1,6 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Categoria } from '../../core/services/categoria.services';
 
 @Component({
   selector: 'app-card-transactions',
@@ -10,6 +11,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class CardTransactions {
   @Input() transaction: any;
   @Output() edit = new EventEmitter<any>();
+
+  categorias: Categoria[] = [];
 
   onEdit() {
     this.edit.emit(this.transaction);
@@ -28,18 +31,30 @@ export class CardTransactions {
     }
   }
 
+  getNomeCategoria(id: string): string {
+    const cat = this.categorias.find((c) => c._id === id);
+    return cat ? cat.nome : '';
+  }
+
   getBancoDisplay(transaction: any): string {
+    console.log('Categoria recebida no card:', this.transaction.categoria);
+    console.log('Transação:', this.transaction);
     if (transaction.tipo === 'transferencia') {
       return `${transaction.bancoOrigem?.nome || ''} → ${
         transaction.bancoDestino?.nome || ''
       }`;
     }
-    if (transaction.tipo === 'receita') {
-      return transaction.bancoDestino?.nome || '';
+     if (transaction.tipo === 'receita') {
+      return `${transaction.bancoDestino?.nome || ''} | ${
+        transaction.categoria?.nome || ''
+      }`;
     }
     if (transaction.tipo === 'despesa') {
-      return transaction.bancoOrigem?.nome || '';
+      return `${transaction.bancoOrigem?.nome || ''} | ${
+        transaction.categoria?.nome || ''
+      }`;
     }
+
     return '';
   }
 

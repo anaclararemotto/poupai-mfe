@@ -37,7 +37,6 @@ export class Transactions implements OnInit {
           data: new Date(t.data),
         };
       });
-      console.log(this.transactions);
     });
   }
 

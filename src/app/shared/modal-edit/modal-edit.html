@@ -1,40 +1,47 @@
-<div
-  class="modal fade show d-block"
-  tabindex="-1"
-  role="dialog"
-  *ngIf="show"
-  style="background-color: rgba(0, 0, 0, 0.5)"
->
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">{{ tipo | titlecase }}</h5>
-        <button type="button" class="btn-close" (click)="onClose()"></button>
-      </div>
+<div class="modal modal-edit" *ngIf="show">
+  <div class="modal-edit__dialog" role="document">
+    <div class="modal-edit__dialog__header">
+      <h5 class="modal-edit__dialog__header__title">{{ tipo | titlecase }}</h5>
+      <button type="button" class="btn-close" (click)="onClose()"></button>
+    </div>
 
-      <div class="modal-body">
-        <ng-container [ngSwitch]="tipo">
-          <div *ngSwitchCase="'transferencia'">
-            <div *ngIf="selectedTransaction">
-              <form class="form-contro">
-                <div>
-                  <label class="form-label">Banco</label>
-                  <select
-                    class="form-select"
-                    [(ngModel)]="selectedTransaction.bancoOrigem"
-                    name="bancoOrigem"
-                    [ngModelOptions]="{ standalone: true }"
-                  >
-                    <option *ngFor="let bank of banks" [value]="bank.id">
-                      {{ bank.nome }}
-                    </option>
-                  </select>
-                </div>
-                <div>
+    <div>
+      <ng-container [ngSwitch]="tipo">
+        <div *ngSwitchCase="'transferencia'">
+          <div *ngIf="selectedTransaction">
+            <form class="modal-edit__dialog__form">
+              <div>
+                <label class="form-label">De</label>
+                <select
+                  class="form-select"
+                  [(ngModel)]="selectedTransaction.bancoOrigem"
+                  name="bancoOrigem"
+                >
+                  <option [ngValue]="null" disabled>Selecione um banco</option>
+                  <option *ngFor="let bank of banks" [ngValue]="bank._id">
+                    {{ bank.nome }}
+                  </option>
+                </select>
+              </div>
+              <div>
+                <label class="form-label">Para</label>
+                <select
+                  class="form-select"
+                  [(ngModel)]="selectedTransaction.bancoDestino"
+                  name="bancoDestino"
+                >
+                  <option [ngValue]="null" disabled>Selecione um banco</option>
+                  <option *ngFor="let bank of banks" [ngValue]="bank._id">
+                    {{ bank.nome }}
+                  </option>
+                </select>
+              </div>
+              <div class="modal-edit__dialog__form__input-inline">
+                <div class="modal-edit__dialog__form__input-inline__input">
                   <label class="form-label">Valor</label>
                   <input
                     type="text"
-                    class="form-control"
+                    class="form-control modal-edit__dialog__form__input-inline__first"
                     name="valor"
                     mask="separator.2"
                     thousandSeparator="."
@@ -45,25 +52,174 @@
                   />
                 </div>
 
-                <div class="input-group mb-3"></div>
-                <div>
+                <div class="modal-edit__dialog__form__input-inline__input">
                   <label class="form-label">Data</label>
                   <input
                     type="date"
-                    class="form-control"
+                    class="form-control modal-edit__dialog__form__input-inline__input__second"
                     [(ngModel)]="selectedTransaction.data"
                     name="data"
                   />
                 </div>
-              </form>
-            </div>
+              </div>
+              <div class="modal-edit__dialog__form__button">
+                <button
+                  (click)="onClose()"
+                  class="btn modal-edit__dialog__form__button__cancel"
+                >
+                  Cancelar
+                </button>
+                <button class="btn modal-edit__dialog__form__button__edit">
+                  Salvar
+                </button>
+              </div>
+            </form>
           </div>
+        </div>
 
-          <div *ngSwitchCase="'despesa'">Conteúdo para editar Despesa</div>
-          <div *ngSwitchCase="'receita'">Conteúdo para editar Receita</div>
-          <div *ngSwitchDefault>Tipo desconhecido.</div>
-        </ng-container>
-      </div>
+        <div *ngSwitchCase="'despesa'">
+          <div *ngIf="selectedTransaction">
+            <form class="modal-edit__dialog__form">
+              <div class="modal-edit__dialog__form__input-inline">
+                <div class="modal-edit__dialog__form__input-inline__input">
+                  <label class="form-label">Valor</label>
+                  <input
+                    type="text"
+                    class="form-control modal-edit__dialog__form__input-inline__first"
+                    name="valor"
+                    mask="separator.2"
+                    thousandSeparator="."
+                    decimalMarker=","
+                    prefix="R$ "
+                    [dropSpecialCharacters]="false"
+                    [(ngModel)]="selectedTransaction.valor"
+                  />
+                </div>
+
+                <div class="modal-edit__dialog__form__input-inline__input">
+                  <label class="form-label">Data</label>
+                  <input
+                    type="date"
+                    class="form-control modal-edit__dialog__form__input-inline__input__second"
+                    [(ngModel)]="selectedTransaction.data"
+                    name="data"
+                  />
+                </div>
+              </div>
+              <div>
+                <label class="form-label">De</label>
+                <select
+                  class="form-select"
+                  [(ngModel)]="selectedTransaction.categoria"
+                  name="categoria"
+                >
+                  <option [ngValue]="null" disabled>
+                    Selecione uma categoria
+                  </option>
+                  <option *ngFor="let cat of categorias" [ngValue]="cat._id">
+                    {{ cat.nome }}
+                  </option>
+                </select>
+              </div>
+              <div>
+                <label class="form-label">Para</label>
+                <select
+                  class="form-select"
+                  [(ngModel)]="selectedTransaction.bancoDestino"
+                  name="bancoDestino"
+                >
+                  <option [ngValue]="null" disabled>Selecione um banco</option>
+                  <option *ngFor="let bank of banks" [ngValue]="bank._id">
+                    {{ bank.nome }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="modal-edit__dialog__form__button">
+                <button
+                  (click)="onClose()"
+                  class="btn modal-edit__dialog__form__button__cancel"
+                >
+                  Cancelar
+                </button>
+                <button class="btn modal-edit__dialog__form__button__edit">
+                  Salvar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div *ngSwitchCase="'receita'">
+          <div *ngIf="selectedTransaction">
+            <form class="modal-edit__dialog__form">
+              <div class="modal-edit__dialog__form__input-inline">
+                <div class="modal-edit__dialog__form__input-inline__input">
+                  <label class="form-label">Valor</label>
+                  <input
+                    type="text"
+                    class="form-control modal-edit__dialog__form__input-inline__first"
+                    name="valor"
+                    mask="separator.2"
+                    thousandSeparator="."
+                    decimalMarker=","
+                    prefix="R$ "
+                    [dropSpecialCharacters]="false"
+                    [(ngModel)]="selectedTransaction.valor"
+                  />
+                </div>
+
+                <div class="modal-edit__dialog__form__input-inline__input">
+                  <label class="form-label">Data</label>
+                  <input
+                    type="date"
+                    class="form-control modal-edit__dialog__form__input-inline__input__second"
+                    [(ngModel)]="selectedTransaction.data"
+                    name="data"
+                  />
+                </div>
+              </div>
+              <div>
+                <label class="form-label">De</label>
+                <select class="form-select" [(ngModel)]="selectedTransaction.categoria" name="categoria">
+
+                  <option [ngValue]="null" disabled>
+                    Selecione uma categoria
+                  </option>
+                  <option *ngFor="let cat of categorias" [ngValue]="cat._id">
+                    {{ cat.nome }}
+                  </option>
+                </select>
+              </div>
+              <div>
+                <label class="form-label">Para</label>
+                <select
+                  class="form-select"
+                  [(ngModel)]="selectedTransaction.bancoDestino"
+                  name="bancoDestino"
+                >
+                  <option [ngValue]="null" disabled>Selecione um banco</option>
+                  <option *ngFor="let bank of banks" [ngValue]="bank._id">
+                    {{ bank.nome }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="modal-edit__dialog__form__button">
+                <button
+                  (click)="onClose()"
+                  class="btn modal-edit__dialog__form__button__cancel"
+                >
+                  Cancelar
+                </button>
+                <button class="btn modal-edit__dialog__form__button__edit">
+                  Salvar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div *ngSwitchDefault>Tipo desconhecido.</div>
+      </ng-container>
     </div>
   </div>
 </div>
