@@ -27,7 +27,7 @@
       align-items: center;
 
       &__title {
-        @include font-heading-5;
+        @include font-heading-6;
       }
     }
 
@@ -38,6 +38,10 @@
       &__text {
         display: flex;
         justify-content: space-between;
+
+        &__title{
+            @include font-heading-5;
+        }
       }
     }
   }
