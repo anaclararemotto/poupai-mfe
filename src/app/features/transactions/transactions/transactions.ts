@@ -9,6 +9,7 @@ import { TimeFilter } from '../../../shared/time-filter/time-filter';
 import { TransactionsButton } from '../../../shared/transactions-button/transactions-button';
 import { TransactionsAccount } from '../transactions-account/transactions-account';
 import { ModalView } from '../../../shared/modal-view/modal-view';
+import { ModalDelete } from "../../../shared/modal-delete/modal-delete";
 
 @Component({
   selector: 'app-transactions',
@@ -22,7 +23,8 @@ import { ModalView } from '../../../shared/modal-view/modal-view';
     ModalEdit,
     CommonModule,
     ModalView,
-  ],
+    ModalDelete
+],
   templateUrl: './transactions.html',
   styleUrl: './transactions.scss',
 })
@@ -32,6 +34,8 @@ export class Transactions implements OnInit {
   selectedTransaction: any = null;
   showEditModal = false;
   showViewModal = false;
+showDeleteModal = false;
+
 
   ngOnInit() {
     this.api.getTransactions().subscribe((res) => {
@@ -48,6 +52,7 @@ export class Transactions implements OnInit {
     this.selectedTransaction = transaction;
     this.showEditModal = true;
     this.showViewModal = false;
+    this.showDeleteModal = false;
   }
 
   closeEditModal() {
@@ -60,6 +65,7 @@ export class Transactions implements OnInit {
   this.selectedTransaction = transaction;
   this.showViewModal = true;
   this.showEditModal = false;
+  this.showDeleteModal = false;
 }
 
 
@@ -67,4 +73,18 @@ export class Transactions implements OnInit {
     this.showViewModal = false;
     this.selectedTransaction = null;
   }
+
+
+openDeleteModal(transaction: any) {
+  console.log('openDeleteModal chamado com:', transaction);
+  this.selectedTransaction = transaction;
+  this.showDeleteModal = true;
+}
+
+closeDeleteModal() {
+  this.showDeleteModal = false;
+  this.selectedTransaction = null;
+}
+
+
 }
