@@ -12,6 +12,7 @@ export class CardTransactions {
   @Input() transaction: any;
   @Output() edit = new EventEmitter<any>();
   @Output() view = new EventEmitter<any>();
+  @Output() delete = new EventEmitter<any>();
 
   categorias: Categoria[] = [];
 
@@ -21,6 +22,9 @@ export class CardTransactions {
 
   onView() {
   this.view.emit(this.transaction);
+}
+  onDelete() {
+  this.delete.emit(this.transaction);
 }
 
 

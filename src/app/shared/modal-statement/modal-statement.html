@@ -1,0 +1,43 @@
+<div class="modal modal-statement" *ngIf="show">
+  <div class="modal-statement__dialog" role="document">
+    <div class="modal-statement__dialog__header">
+      <h5 class="modal-statement__dialog__header__title">Extrato</h5>
+      <button type="button" class="btn-close" (click)="onClose()"></button>
+    </div>
+    <div>
+      <form class="modal-statement__dialog__form">
+        <div>
+          <label class="form-label">Tipo de transação</label>
+          <select class="form-select">
+            <option disabled>Selecione</option>
+            <option>Receita</option>
+            <option>Despesa</option>
+            <option>Transferência</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Período</label>
+          <select class="form-select">
+            <option disabled>Selecione</option>
+            <option>Última semana</option>
+            <option>Últimos 15 dias</option>
+            <option>Último mês</option>
+            <option>Últimos 6 meses</option>
+            <option>Último ano</option>
+          </select>
+        </div>
+        <div class="modal-statement__dialog__form__button">
+          <button
+            (click)="onClose()"
+            class="btn modal-statement__dialog__form__button__cancel"
+          >
+            Cancelar
+          </button>
+          <button class="btn modal-statement__dialog__form__button__confirm">
+            Buscar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
