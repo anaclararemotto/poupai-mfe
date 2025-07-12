@@ -6,6 +6,7 @@
       <app-actions
         class="home__content__info-actions__actions"
         (statement)="openStatementModal()"
+        (abrirModal)="openModal($event)"
       />
       <app-modal-statement
         *ngIf="showStatementModal"
@@ -13,6 +14,13 @@
         (close)="closeStatementModal()"
       >
       </app-modal-statement>
+      <app-modal-transactions
+      *ngIf="showModal"
+      [show]="true"
+      [tipo]="modalTipo"
+      (close)="closeModal()"
+      >
+      </app-modal-transactions>
       <app-card-info class="home__content__info-actions__info" />
     </div>
   </div>
