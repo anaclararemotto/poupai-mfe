@@ -10,6 +10,7 @@ import { TransactionsButton } from '../../../shared/transactions-button/transact
 import { TransactionsAccount } from '../transactions-account/transactions-account';
 import { ModalView } from '../../../shared/modal-view/modal-view';
 import { ModalDelete } from "../../../shared/modal-delete/modal-delete";
+import { ModalStatement } from '../../../shared/modal-statement/modal-statement';
 
 @Component({
   selector: 'app-transactions',
@@ -23,7 +24,7 @@ import { ModalDelete } from "../../../shared/modal-delete/modal-delete";
     ModalEdit,
     CommonModule,
     ModalView,
-    ModalDelete
+    ModalDelete,
 ],
   templateUrl: './transactions.html',
   styleUrl: './transactions.scss',
@@ -35,6 +36,7 @@ export class Transactions implements OnInit {
   showEditModal = false;
   showViewModal = false;
 showDeleteModal = false;
+
 
 
   ngOnInit() {
@@ -85,6 +87,8 @@ closeDeleteModal() {
   this.showDeleteModal = false;
   this.selectedTransaction = null;
 }
+
+
 
 
 }

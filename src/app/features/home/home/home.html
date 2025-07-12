@@ -1,11 +1,20 @@
-<app-navbar/>
+<app-navbar />
 <main class="home">
   <div class="home__content">
     <app-home-account class="home__account" />
     <div class="home__content__info-actions">
-      <app-actions class="home__content__info-actions__actions"/>
-      <app-card-info class="home__content__info-actions__info"/>
+      <app-actions
+        class="home__content__info-actions__actions"
+        (statement)="openStatementModal()"
+      />
+      <app-modal-statement
+        *ngIf="showStatementModal"
+        [show]="true"
+        (close)="closeStatementModal()"
+      >
+      </app-modal-statement>
+      <app-card-info class="home__content__info-actions__info" />
     </div>
   </div>
 </main>
-<app-footer/>
+<app-footer />

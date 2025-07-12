@@ -1,12 +1,18 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-actions',
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './actions.html',
   styleUrl: './actions.scss'
 })
 export class Actions {
+  @Output() statement = new EventEmitter<void>();
+
+  onStatement(){
+    this.statement.emit();
+  }
+
+  
 
 }
