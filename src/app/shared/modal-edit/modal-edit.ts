@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { NgxMaskDirective } from 'ngx-mask';
 import { ApiService } from '../../core/services/api.service';
 import {
   Categoria,
@@ -11,7 +11,7 @@ import {
 @Component({
   selector: 'app-modal-edit',
   imports: [CommonModule, FormsModule, NgxMaskDirective],
-  providers: [provideNgxMask()],
+  providers: [],
   templateUrl: './modal-edit.html',
   styleUrl: './modal-edit.scss',
 })
