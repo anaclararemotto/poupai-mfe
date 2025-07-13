@@ -15,14 +15,17 @@
       >
       </app-modal-statement>
       <app-modal-transactions
-      *ngIf="showModal"
-      [show]="true"
-      [tipo]="modalTipo"
-      (close)="closeModal()"
+        *ngIf="showModal"
+        [show]="true"
+        [tipo]="modalTipo"
+        (close)="closeModal()"
       >
       </app-modal-transactions>
       <app-card-info class="home__content__info-actions__info" />
     </div>
+  </div>
+  <div class="container-grafico">
+    <app-home-dashboard></app-home-dashboard>
   </div>
 </main>
 <app-footer />

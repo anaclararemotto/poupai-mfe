@@ -1,0 +1,45 @@
+.graficos-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.grafico-card {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 450px;
+  box-sizing: border-box;
+}
+
+.grafico-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 10px;
+
+  h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #495057;
+  }
+
+  span {
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+}
+
+.valor-receita {
+  color: #198754;
+}
+
+.valor-despesa {
+  color: #dc3545;
+}
