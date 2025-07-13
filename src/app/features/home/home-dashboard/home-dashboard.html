@@ -1,33 +1,29 @@
-
-<!-- Container principal que vai alinhar os dois gráficos -->
 <div class="graficos-container">
-
-  <!-- Card para o Gráfico de Receitas -->
   <div class="grafico-card">
     <div class="grafico-header">
       <h2>Total Receita</h2>
       <span class="valor-receita">R$ 4.850,00</span>
     </div>
-    <canvas 
-        baseChart
-        [data]="receitasChartData"
-        [type]="doughnutChartType"
-        [options]="doughnutChartOptions">
+    <canvas
+      baseChart
+      [data]="receitasChartData"
+      [type]="doughnutChartType"
+      [options]="doughnutChartOptions"
+    >
     </canvas>
   </div>
 
-  <!-- Card para o Gráfico de Despesas -->
   <div class="grafico-card">
     <div class="grafico-header">
       <h2>Total Despesa</h2>
       <span class="valor-despesa">R$ 2.800,00</span>
     </div>
-    <canvas 
-        baseChart
-        [data]="despesasChartData"
-        [type]="doughnutChartType"
-        [options]="doughnutChartOptions">
+    <canvas
+      baseChart
+      [data]="despesasChartData"
+      [type]="doughnutChartType"
+      [options]="doughnutChartOptions"
+    >
     </canvas>
   </div>
-
 </div>

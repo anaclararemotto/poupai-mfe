@@ -1,0 +1,37 @@
+@use '../../../styles/base/index' as *;
+
+.logo-container {
+  display: none;
+}
+
+@include respond(md) {
+    .logo-container {
+        padding: 0.625rem 3.125rem;
+        font-family: $font-poppins;
+  display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 0.625rem;
+
+    &__img{
+        width: 6%;
+    }
+
+  &__title{
+      color: $blue-500;
+      @include font-heading-3;
+    font-weight: 700;
+  }
+}
+}
+
+@include respond(lg) {
+    .logo-container {
+        padding: 0.625rem 10.625rem;
+
+    &__img{
+        width: 4%;
+    }
+
+}
+}

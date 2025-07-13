@@ -9,6 +9,23 @@
   </div>
   <div class="account-card__menu">
     <app-card-info/>
-    <app-actions class="account-card__menu__actions"/>
+    <app-actions
+        class="account-card__menu__actions"
+        (statement)="openStatementModal()"
+        (abrirModal)="openModal($event)"
+      />
+      <app-modal-statement
+        *ngIf="showStatementModal"
+        [show]="true"
+        (close)="closeStatementModal()"
+      >
+      </app-modal-statement>
+      <app-modal-transactions
+      *ngIf="showModal"
+      [show]="true"
+      [tipo]="modalTipo"
+      (close)="closeModal()"
+      >
+      </app-modal-transactions>
   </div>
 </section>

@@ -1,18 +1,18 @@
 <section class="actions">
   <div class="actions__action">
-    <button class=" actions__action__btn btn"><i class="bi bi-arrow-up"></i></button>
+    <button class=" actions__action__btn btn" (click)="abrir('receita')"><i class="bi bi-arrow-up"></i></button>
     <p class="actions__action__text">Receitas</p>
   </div>
   <div class="actions__action">
-    <button class=" actions__action__btn btn"><i class="bi bi-arrow-down"></i></button>
+    <button class=" actions__action__btn btn" (click)="abrir('despesa')"><i class="bi bi-arrow-down"></i></button>
     <p class="actions__action__text">Despesas</p>
   </div>
   <div class="actions__action">
-    <button class="actions__action__btn btn"><i class="bi bi-repeat"></i></button>
+    <button class="actions__action__btn btn" (click)="abrir('transferencia')"><i class="bi bi-repeat"></i></button>
     <p class="actions__action__text">Transferencia</p>
   </div>
   <div class="actions__action">
-    <button class="actions__action__btn btn"><i class="bi bi-clock-history"></i></button>
+    <button class="actions__action__btn btn" (click)="onStatement()"><i class="bi bi-clock-history"></i></button>
     <p class="actions__action__text">Extrato</p>
   </div>
 </section>

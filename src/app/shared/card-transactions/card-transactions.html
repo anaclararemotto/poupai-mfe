@@ -1,28 +1,32 @@
 <div class="transactions-card">
   <div class="transactions-card__left">
-    <div class="transactions-card__left__icon">
-      <i class="bi bi-arrow-down text-light"></i>
+    <div
+      class="transactions-card__left__icon"
+      [class.despesa]="transaction.tipo === 'despesa'"
+      [class.receita]="transaction.tipo === 'receita'"
+      [class.transferencia]="transaction.tipo === 'transferencia'"
+    >
+      <i class="bi text-light" [class]="getIconClass(transaction.tipo)"></i>
     </div>
     <div class="transactions-card__left__content">
-      <p class="transactions-card__left__content__category">Despesa</p>
-      <p class="transactions-card__left__content__date">21/06/2025</p>
-      <p class="transactions-card__left__content__amount">R$ 0,00</p>
+      <p>{{ transaction.tipo | titlecase }}</p>
+      <p>{{ transaction.data | date:'dd/MM/yyyy' }}</p>
+      <p>R$ {{ formatarValor(transaction.valor) }}</p>
     </div>
   </div>
   <div class="transactions-card__middle">
-    <p class="transactions-card__middle__bank">
-      Do banco x para o banco y
-    </p>
+    <p>{{ getBancoDisplay(transaction) }}</p>
   </div>
+
   <div>
-    <button class="btn ">
+    <button class="btn" (click)="onEdit()">
       <i class="bi bi-pencil-square"></i>
     </button>
-    <button class="btn">
-      <i class="bi bi-trash-fill"></i>
+    <button class="btn" (click)="onView()">
+      <i class="bi bi-eye"></i>
     </button>
-    <button class="btn">
-      <i class="bi bi-eye-fill"></i>
+    <button class="btn" (click)="onDelete()">
+      <i class="bi bi-trash"></i>
     </button>
   </div>
 </div>

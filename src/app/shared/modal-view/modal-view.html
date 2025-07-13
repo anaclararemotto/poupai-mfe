@@ -1,0 +1,74 @@
+<div class="modal modal-edit" *ngIf="show">
+  <div class="modal-edit__dialog" role="document">
+    <div class="modal-edit__dialog__header">
+       <h5 class="modal-edit__dialog__header__title">{{ tipo | titlecase }}</h5>
+      <button type="button" class="btn-close" (click)="onClose()"></button>
+    </div>
+
+    <div>
+      <ng-container [ngSwitch]="tipo">
+        <div *ngSwitchCase="'transferencia'">
+            <div class="modal-edit__dialog__content" *ngIf="selectedTransaction">
+                <div class="modal-edit__dialog__content__text">
+                    <p class="modal-edit__dialog__content__text__title">Saiu de</p>
+                    <p >Banco</p>
+                </div>
+                <div class="modal-edit__dialog__content__text">
+                    <p class="modal-edit__dialog__content__text__title">Para</p>
+                    <p >Banco</p>
+                </div>
+                <div class="modal-edit__dialog__content__text">
+                    <p class="modal-edit__dialog__content__text__title">Valor</p>
+                    <p >R$ 12,00</p>
+                </div>
+                <div class="modal-edit__dialog__content__text">
+                    <p class="modal-edit__dialog__content__text__title">Data</p>
+                    <p >23/05/2024</p>
+                </div>
+            </div>
+        </div>
+        <div *ngSwitchCase="'despesa'">
+            <div class="modal-edit__dialog__content" *ngIf="selectedTransaction">
+                <div class="modal-edit__dialog__content__text">
+                    <p class="modal-edit__dialog__content__text__title">Saiu de</p>
+                    <p >Banco</p>
+                </div>
+                <div class="modal-edit__dialog__content__text">
+                    <p class="modal-edit__dialog__content__text__title">Categoria</p>
+                    <p >Categoria</p>
+                </div>
+                <div class="modal-edit__dialog__content__text">
+                    <p class="modal-edit__dialog__content__text__title">Valor</p>
+                    <p >R$ 12,00</p>
+                </div>
+                <div class="modal-edit__dialog__content__text">
+                    <p class="modal-edit__dialog__content__text__title">Data</p>
+                    <p >23/05/2024</p>
+                </div>
+            </div>
+        </div>
+        <div *ngSwitchCase="'receita'">
+            <div class="modal-edit__dialog__content" *ngIf="selectedTransaction">
+                <div class="modal-edit__dialog__content__text">
+                    <p class="modal-edit__dialog__content__text__title">Para</p>
+                    <p >Banco</p>
+                </div>
+                <div class="modal-edit__dialog__content__text">
+                    <p class="modal-edit__dialog__content__text__title">Categoria</p>
+                    <p >Categoria</p>
+                </div>
+                <div class="modal-edit__dialog__content__text">
+                    <p class="modal-edit__dialog__content__text__title">Valor</p>
+                    <p >R$ 12,00</p>
+                </div>
+                <div class="modal-edit__dialog__content__text">
+                    <p class="modal-edit__dialog__content__text__title">Data</p>
+                    <p >23/05/2024</p>
+                </div>
+            </div>
+        </div>
+        <p *ngSwitchDefault>Tipo desconhecido.</p>
+      </ng-container>
+    </div>
+  </div>
+</div>

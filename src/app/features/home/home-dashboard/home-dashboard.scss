@@ -1,30 +1,27 @@
-// Container principal que usa Flexbox para alinhar os cards
 .graficos-container {
   display: flex;
-  justify-content: center; // Centraliza os cards na página
-  gap: 30px;               // Espaço entre os dois cards
-  flex-wrap: wrap;         // Permite que os gráficos quebrem a linha em telas pequenas
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
   padding: 20px;
 }
 
-// Estilo para cada um dos cards de gráfico
 .grafico-card {
-  background-color: #f8f9fa; // Cor de fundo cinza claro, como na foto
+  background-color: #f8f9fa;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   width: 100%;
-  max-width: 450px; // Largura máxima para cada card
+  max-width: 450px;
   box-sizing: border-box;
 }
 
-// Estilo para o cabeçalho dentro de cada card
 .grafico-header {
   display: flex;
-  justify-content: space-between; // Alinha o título à esquerda e o valor à direita
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
-  border-bottom: 1px solid #dee2e6; // Linha divisória
+  border-bottom: 1px solid #dee2e6;
   padding-bottom: 10px;
 
   h2 {
@@ -39,11 +36,10 @@
   }
 }
 
-// Cores específicas para os valores
 .valor-receita {
-  color: #198754; // Verde
+  color: #198754;
 }
 
 .valor-despesa {
-  color: #dc3545; // Vermelho
+  color: #dc3545;
 }

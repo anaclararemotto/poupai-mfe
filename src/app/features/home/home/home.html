@@ -1,12 +1,31 @@
-<section class="home">
+<app-navbar />
+<main class="home">
   <div class="home__content">
     <app-home-account class="home__account" />
     <div class="home__content__info-actions">
-      <app-actions class="home__content__info-actions__actions"/>
-      <app-card-info class="home__content__info-actions__info"/>
+      <app-actions
+        class="home__content__info-actions__actions"
+        (statement)="openStatementModal()"
+        (abrirModal)="openModal($event)"
+      />
+      <app-modal-statement
+        *ngIf="showStatementModal"
+        [show]="true"
+        (close)="closeStatementModal()"
+      >
+      </app-modal-statement>
+      <app-modal-transactions
+        *ngIf="showModal"
+        [show]="true"
+        [tipo]="modalTipo"
+        (close)="closeModal()"
+      >
+      </app-modal-transactions>
+      <app-card-info class="home__content__info-actions__info" />
     </div>
   </div>
-</section>
-<div class="container-grafico">
-  <app-home-dashboard></app-home-dashboard>
-</div>
+  <div class="container-grafico">
+    <app-home-dashboard></app-home-dashboard>
+  </div>
+</main>
+<app-footer />
