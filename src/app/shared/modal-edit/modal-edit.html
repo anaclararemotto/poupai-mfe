@@ -113,15 +113,13 @@
                   [(ngModel)]="selectedTransaction.bancoOrigem"
                   name="bancoOrigem"
                 >
-                  <option [ngValue]="null" disabled>
-                    Selecione uma Banco
-                  </option>
+                  <option [ngValue]="null" disabled>Selecione uma Banco</option>
                   <option *ngFor="let bank of banks" [ngValue]="bank._id">
                     {{ bank.nome }}
                   </option>
                 </select>
               </div>
-              
+
               <div>
                 <label class="form-label">Categoria</label>
                 <select
@@ -181,7 +179,7 @@
                   />
                 </div>
               </div>
-              
+
               <div>
                 <label class="form-label">Para</label>
                 <select
@@ -197,8 +195,11 @@
               </div>
               <div>
                 <label class="form-label">Categoria</label>
-                <select class="form-select" [(ngModel)]="selectedTransaction.categoria" name="categoria">
-
+                <select
+                  class="form-select"
+                  [(ngModel)]="selectedTransaction.categoria"
+                  name="categoria"
+                >
                   <option [ngValue]="null" disabled>
                     Selecione uma categoria
                   </option>
