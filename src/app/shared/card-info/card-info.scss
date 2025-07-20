@@ -1,0 +1,49 @@
+@use "../../../styles/base/index" as *;
+
+.info {
+  @include flex-center;
+  gap: 0.625rem;
+
+  &__card {
+    background-color: $gray-300;
+    min-width: 150px;
+    border-radius: 0.5rem;
+    padding: 0.9375rem 0.625rem;
+    display: flex;
+    gap: 0.3125rem;
+    justify-content: space-between;
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+
+      &__text,
+      &__expenses,
+      &__income {
+        font-family: $font-poppins;
+      }
+      &__income {
+        color: $green-normal;
+        @include font-button;
+      }
+      &__expenses {
+        color: $red-normal;
+        @include font-button;
+      }
+    }
+
+    &__income{
+        background-color: $green-normal;
+        @include flex-center;
+        padding: 6px 14px;
+        border-radius: 100%;
+    }
+    &__expenses{
+        background-color: $red-normal;
+        @include flex-center;
+        padding: 6px 14px;
+        border-radius: 100%;
+    }
+  }
+}

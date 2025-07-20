@@ -1,0 +1,11 @@
+@use "../../../styles/base/index" as *;
+
+.footer{
+    width: 100%;
+    @include flex-center;
+    padding: 1.875rem;
+    
+    &__text{
+        font-family: $font-poppins;
+    }
+}

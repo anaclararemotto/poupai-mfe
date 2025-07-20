@@ -1,0 +1,60 @@
+@use "../../../styles/base/index" as *;
+
+.modal-delete {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+
+  &__dialog {
+    width: 18.75rem;
+    border-radius: 0.5rem;
+    background-color: $white;
+    padding: 1.875rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+
+    &__header {
+      display: flex;
+      justify-content: end;
+      align-items: center;
+    }
+
+    &__body{
+        text-align: center;
+    }
+
+    &__button {
+        display: flex;
+        gap: 0.5rem;
+
+        &__cancel {
+          background-color: $red-normal;
+          color: $white;
+          width: 100%;
+          padding: 0.625rem 0.75rem;
+
+          &:hover {
+            background-color: $red-light;
+          }
+        }
+        &__confirm {
+          background-color: $blue-500;
+          color: $white;
+          width: 100%;
+          padding: 0.625rem 0.75rem;
+
+          &:hover {
+            background-color: $purple-500;
+          }
+        }
+      }
+  }
+}

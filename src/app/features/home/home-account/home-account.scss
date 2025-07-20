@@ -1,0 +1,92 @@
+@use "../../../../styles/base/index" as *;
+
+.account-card {
+  background-color: $blue-500;
+  padding: 1.25rem;
+  border-radius: 8px;
+  &__content {
+    display: flex;
+
+    &__info {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      width: 70%;
+
+      &__name {
+        @include font-heading-4;
+      }
+
+      &__text {
+        @include font-heading-5;
+      }
+
+      &__amount {
+        @include font-heading-3;
+      }
+
+      &__name,
+      &__text,
+      &__amount {
+        color: $white;
+        font-family: $font-poppins;
+      }
+    }
+
+    &__logout {
+      width: 30%;
+      display: flex;
+      align-items: start;
+      justify-content: end;
+
+      &__btn{
+        &__text{
+            display: none;
+        }
+      }
+
+      &__btn:active,
+      &__btn:hover {
+        border: none;
+        outline: none;
+        background-color: #ffffff10;
+      }
+      &__btn:focus {
+        border: none;
+      }
+    }
+  }
+
+  &__btn {
+    color: $white;
+    font-family: $font-poppins;
+  }
+
+  &__btn:active,
+  &__btn:hover {
+    border: none;
+    outline: none;
+    background-color: #ffffff10;
+  }
+  &__btn:focus {
+    border: none;
+  }
+}
+
+@include respond(md){
+    .account-card{
+        &__content{
+            &__logout{
+                &__btn{
+                    display: flex;
+                    gap: 0.4rem;
+                    &__text{
+                        display: block;
+                        color: $white;
+                        font-family: $font-poppins;
+                    }
+                }
+            }
+        }
+    }
+}

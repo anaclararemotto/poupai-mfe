@@ -1,0 +1,79 @@
+@use "../../../styles/base/index" as *;
+
+.transactions-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.9375rem;
+
+  &__left {
+    @include flex-center;
+    gap: 0.3125rem;
+    &__icon {
+      background-color: $red-normal;
+      @include flex-center;
+      padding: 10px 13px;
+      border-radius: 100%;
+    }
+    &__content {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      &__category,
+      &__date,
+      &__amount {
+        font-family: $font-poppins;
+      }
+      &__category,
+      &__date {
+        @include font-body-3;
+      }
+
+      &__amount {
+        color: $red-normal;
+      }
+    }
+  }
+
+  &__middle {
+    display: none;
+  }
+}
+
+.despesa {
+  background-color: $red-normal;
+  @include flex-center;
+  padding: 10px 12px;
+  border-radius: 100%;
+}
+
+.receita {
+  background-color: $green-normal; 
+  @include flex-center;
+  padding: 10px 12px;
+  border-radius: 100%;
+}
+
+.transferencia {
+  background-color: $blue-500;
+  @include flex-center;
+  padding: 10px 12px;
+  border-radius: 100%;
+}
+
+@include respond(md) {
+  .transactions-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0.9375rem;
+    &__middle {
+      display: block;
+      &__bank {
+        font-family: $font-poppins;
+      }
+    }
+  }
+}

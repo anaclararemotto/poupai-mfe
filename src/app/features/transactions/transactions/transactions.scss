@@ -1,0 +1,22 @@
+@use "../../../../styles/base/index" as *;
+
+.transactions {
+  padding: 3.125rem 1.875rem;
+  font-family: $font-poppins;
+
+}
+
+@include respond(md) {
+  .transactions {
+    padding: 0px 3.125rem;
+   
+    &__button{
+        display: none;
+    }
+  }
+}
+@include respond(lg) {
+  .transactions {
+    padding: 0px 10.625rem;
+  }
+}

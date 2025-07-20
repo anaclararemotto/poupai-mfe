@@ -1,0 +1,38 @@
+@use "../../../styles/base/index" as *;
+
+.filter {
+  @include flex-center;
+  padding : 0.625rem;
+  &__carousel {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    scroll-snap-type: x mandatory;
+    @include hiddenScrollbar;
+
+    &__tag {
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+      border: 0.125rem solid $blue-500;
+      border-radius: 6.25rem;
+      color: $blue-500;
+      background-color: transparent;
+      font-family: $font-poppins;
+      padding: 0.25rem 0.5rem;
+      @include font-body-3;
+      white-space: nowrap;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: $blue-500;
+        color: $white;
+      }
+
+      &.is-active {
+  background-color: $blue-500;
+        color: $white;
+}
+    }
+  }
+}
