@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
-import { tokenInterceptor } from './core/interceptors/token.interceptor';
-import { provideNgxMask } from 'ngx-mask'; // Importação correta do ngx-mask
+import { tokenInterceptorFn } from './core/interceptors/token.interceptor';
+import { provideNgxMask } from 'ngx-mask'; 
 
 import { routes } from './app.routes';
 
@@ -19,9 +19,9 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(
       withInterceptors([
-        tokenInterceptor
+        tokenInterceptorFn
       ])
     ),
-    provideNgxMask(), // Uso correto dentro do array de providers
+    provideNgxMask(), 
   ],
 };

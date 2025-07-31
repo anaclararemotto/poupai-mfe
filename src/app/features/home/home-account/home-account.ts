@@ -1,71 +1,104 @@
-
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../core/services/auth.service'; // Importe seu AuthService
-import { Usuario, UsuarioService } from '../../../core/services/usuario.service';
-
+import { AuthService } from '../../../core/services/auth.service';
+import {
+  Usuario,
+  UsuarioService,
+} from '../../../core/services/usuario.service';
+import { Subscription, filter } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-home-account',
   standalone: true,
-  imports: [
-    CommonModule
-  ],
-  // O UsuarioService já tem providedIn: 'root', mas se houver algum problema
-  // e ele estiver em um MFE diferente, você pode precisar listá-lo aqui.
-  // providers: [UsuarioService], // Normalmente não é necessário se providedIn: 'root'
+  imports: [CommonModule],
   templateUrl: './home-account.html',
-  styleUrl: './home-account.scss'
+  styleUrl: './home-account.scss',
 })
-export class HomeAccount implements OnInit {
-
+export class HomeAccount implements OnInit, OnDestroy {
   usuario: Usuario | null = null;
+  private tokenSubscription: Subscription | undefined;
+  private userSubscription: Subscription | undefined;
 
   constructor(
     private router: Router,
-    private usuarioService: UsuarioService, // Injete o UsuarioService
-    private authService: AuthService // Injete o AuthService
-  ) { }
+    private authService: AuthService,
+    private usuarioService: UsuarioService
+  ) {}
 
   ngOnInit(): void {
-    this.carregarUsuarioLogado();
+    console.group('HomeAccount OnInit');
+    console.log('HomeAccount: ngOnInit chamado.');
+
+    this.tokenSubscription = this.authService.currentToken$
+      .pipe(filter((token) => !!token))
+      .subscribe(() => {
+        console.log(
+          'DEBUG HomeAccount: Token no stream. Chamando a API para carregar dados do usuário.'
+        );
+        this.carregarDadosDoUsuario();
+      });
+
+    this.userSubscription = this.authService.currentUser$.subscribe(
+      (usuario) => {
+        this.usuario = usuario;
+        if (usuario) {
+          console.log(
+            'DEBUG HomeAccount: Dados do usuário carregados com sucesso:',
+            usuario.nome
+          );
+        } else {
+          console.log(
+            'DEBUG HomeAccount: Nenhuma informação de usuário disponível.'
+          );
+        }
+      }
+    );
+
+    console.groupEnd();
   }
 
-  carregarUsuarioLogado() {
-    // Verifica primeiro se há um usuário logado (seja pelo token ou por alguma flag)
-    if (!this.authService.isLoggedIn()) {
-      console.error('Usuário não autenticado. Redirecionando para o login.');
-      this.router.navigate(['/login']);
-      return;
-    }
+  private carregarDadosDoUsuario(): void {
+    console.group('HomeAccount carregarDadosDoUsuario');
+    console.log(
+      'DEBUG HomeAccount: Tentando carregar dados do usuário logado via UsuarioService...'
+    );
 
-    console.log('Tentando carregar dados do usuário logado...');
-    
-    // Chama o novo método que busca diretamente o usuário logado
     this.usuarioService.getUsuarioLogado().subscribe({
       next: (usuario: Usuario) => {
-        this.usuario = usuario;
-        console.log('Usuário logado:', this.usuario.nome);
+        this.authService.setUser(usuario);
+        console.groupEnd();
       },
-      error: (error) => {
-        console.error('Erro ao carregar dados do usuário logado:', error);
-        this.usuario = { _id: '', nome: 'Erro ao carregar', email: '', senha: '' }; 
-        // Em caso de erro (ex: token inválido/expirado, erro de servidor), deslogar o usuário
-        this.authService.logout();
-        this.router.navigate(['/login']);
-      }
+      error: (error: HttpErrorResponse) => {
+        console.error(
+          'DEBUG HomeAccount: Erro ao carregar dados do usuário logado:',
+          error
+        );
+        if (error.status === 401 || error.status === 403) {
+          this.authService.logout();
+        }
+        console.groupEnd();
+      },
     });
   }
 
+  ngOnDestroy(): void {
+    if (this.tokenSubscription) {
+      this.tokenSubscription.unsubscribe();
+    }
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
+  }
+
   adicionarConta() {
-    console.log('Botão "Adicionar conta" clicado!');
+    console.log('HomeAccount: Botão "Adicionar conta" clicado!');
     this.router.navigate(['/contas/nova']);
   }
 
   sair() {
-    console.log('Botão "Sair" clicado!');
-    this.authService.logout(); // Chama o logout do AuthService
-    this.router.navigate(['/login']);
+    console.log('HomeAccount: Botão "Sair" clicado!');
+    this.authService.logout();
   }
 }

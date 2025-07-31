@@ -10,13 +10,14 @@ export const routes: Routes = [
   {
     path: 'transactions',
     loadChildren: () =>
-      import('./features/transactions/transactions-module').then((m) => m.TransactionsModule),
+      import('./features/transactions/transactions-module').then(
+        (m) => m.TransactionsModule
+      ),
   },
   {
     path: 'dashboard',
     loadChildren: () =>
-    import('./features/home/home-module').then((m) => m.HomeModule),
+      import('./features/home/home-module').then((m) => m.HomeModule),
   },
   { path: '**', redirectTo: '/home' },
-
 ];
