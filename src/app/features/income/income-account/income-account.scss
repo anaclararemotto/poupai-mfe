@@ -1,0 +1,77 @@
+@use "../../../../styles/base/index" as *;
+
+.account-card {
+  background-color: $blue-500;
+  padding: 1.25rem;
+  border-radius: 8px;
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: 20%;
+    &__dropdown {
+      font-family: $font-poppins;
+      width: 50%;
+      background-color: transparent;
+      color: $white;
+      border: none;
+
+      &__option{
+        color: $black;
+      }
+    }
+
+    &__dropdown:hover {
+      border: none;
+      outline: none;
+      background-color: #ffffff10;
+    }
+    &__dropdown:active {
+      border: none;
+      outline: none;
+      background-color: #ffffff30;
+    }
+
+    &__dropdown:focus {
+      border: none;
+    }
+  }
+
+  &__menu {
+    &__actions {
+      display: none;
+    }
+  }
+}
+@include respond(md) {
+  .account-card {
+    &__nav {
+      gap: 40%;
+      padding: 0.625rem;
+      &__dropdown {
+        width: 22%;
+      }
+    }
+    &__menu {
+      display: flex;
+      justify-content: space-around;
+      &__actions {
+        width: 50%;
+        display: block;
+      }
+    }
+  }
+}
+
+@include respond(lg){
+    .account-card {
+    &__nav {
+      gap: 40%;
+      padding: 0.625rem;
+      &__dropdown {
+        width: 15%;
+      }
+    
+  }
+}
+}

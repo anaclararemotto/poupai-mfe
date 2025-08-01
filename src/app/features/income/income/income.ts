@@ -1,44 +1,27 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ApiService } from '../../../core/services/api.service';
-import { CardTransactions } from '../../../shared/card-transactions/card-transactions';
-import { Footer } from '../../../shared/footer/footer';
-import { ModalDelete } from "../../../shared/modal-delete/modal-delete";
-import { ModalEdit } from '../../../shared/modal-edit/modal-edit';
-import { ModalView } from '../../../shared/modal-view/modal-view';
-import { Navbar } from '../../../shared/navbar/navbar';
-import { TimeFilter } from '../../../shared/time-filter/time-filter';
-import { TransactionsButton } from '../../../shared/transactions-button/transactions-button';
-import { TransactionsAccount } from '../transactions-account/transactions-account';
+import { CardTransactions } from "../../../shared/card-transactions/card-transactions";
+import { Navbar } from "../../../shared/navbar/navbar";
+import { TimeFilter } from "../../../shared/time-filter/time-filter";
+import { IncomeAccount } from "../income-account/income-account";
+import { TransactionsButton } from "../../../shared/transactions-button/transactions-button";
+import { Footer } from "../../../shared/footer/footer";
 
 @Component({
-  selector: 'app-transactions',
-  imports: [
-    TransactionsAccount,
-    CardTransactions,
-    TransactionsButton,
-    TimeFilter,
-    Navbar,
-    Footer,
-    ModalEdit,
-    CommonModule,
-    ModalView,
-    ModalDelete,
-],
-  templateUrl: './transactions.html',
-  styleUrl: './transactions.scss',
+  selector: 'app-income',
+  imports: [Navbar, IncomeAccount, TimeFilter, CardTransactions, TransactionsButton, Footer],
+  templateUrl: './income.html',
+  styleUrl: './income.scss'
 })
-export class Transactions implements OnInit {
+export class Income {
   api = inject(ApiService);
-  transactions: any[] = [];
+transactions: any[] = [];
   selectedTransaction: any = null;
   showEditModal = false;
   showViewModal = false;
 showDeleteModal = false;
 
-
-
-  ngOnInit() {
+ngOnInit() {
     this.api.getTransactions().subscribe((res) => {
       this.transactions = res.map((t) => {
         return {
@@ -86,8 +69,5 @@ closeDeleteModal() {
   this.showDeleteModal = false;
   this.selectedTransaction = null;
 }
-
-
-
 
 }
