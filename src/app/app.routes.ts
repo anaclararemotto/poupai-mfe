@@ -15,6 +15,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'income',
+    loadChildren: () =>
+      import('./features/income/income-module').then(
+        (m) => m.IncomeModule
+      ),
+  },
+  {
     path: 'dashboard',
     loadChildren: () =>
       import('./features/home/home-module').then((m) => m.HomeModule),
