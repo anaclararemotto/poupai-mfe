@@ -22,6 +22,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'expense',
+    loadChildren: () =>
+      import('./features/expense/expense-module').then(
+        (m) => m.ExpenseModule
+      ),
+  },
+  {
     path: 'dashboard',
     loadChildren: () =>
       import('./features/home/home-module').then((m) => m.HomeModule),

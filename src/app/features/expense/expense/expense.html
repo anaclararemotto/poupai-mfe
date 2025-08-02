@@ -1,0 +1,14 @@
+<app-navbar/>
+<section class="expense">
+    <app-expense-account/>
+    <app-time-filter/>
+     <app-card-transactions
+  *ngFor="let t of transactions"
+  [transaction]="t"
+  (edit)="openEditModal($event)"
+  (view)="openViewModal($event)"
+  (delete)="openDeleteModal($event)"
+></app-card-transactions>
+<app-transactions-button class="expense__button"/>
+</section>
+<app-footer/>
