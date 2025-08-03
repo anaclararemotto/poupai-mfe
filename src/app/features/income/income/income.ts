@@ -1,34 +1,57 @@
 import { Component, inject } from '@angular/core';
 import { ApiService } from '../../../core/services/api.service';
-import { CardTransactions } from "../../../shared/card-transactions/card-transactions";
-import { Navbar } from "../../../shared/navbar/navbar";
-import { TimeFilter } from "../../../shared/time-filter/time-filter";
-import { IncomeAccount } from "../income-account/income-account";
-import { TransactionsButton } from "../../../shared/transactions-button/transactions-button";
-import { Footer } from "../../../shared/footer/footer";
+import { CardTransactions } from '../../../shared/card-transactions/card-transactions';
+import { Navbar } from '../../../shared/navbar/navbar';
+import { TimeFilter } from '../../../shared/time-filter/time-filter';
+import { IncomeAccount } from '../income-account/income-account';
+import { TransactionsButton } from '../../../shared/transactions-button/transactions-button';
+import { Footer } from '../../../shared/footer/footer';
+import {
+  Transacao,
+  TransacoesService,
+} from '../../../core/services/transacoes.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-income',
-  imports: [Navbar, IncomeAccount, TimeFilter, CardTransactions, TransactionsButton, Footer],
+  imports: [
+    Navbar,
+    IncomeAccount,
+    TimeFilter,
+    CardTransactions,
+    TransactionsButton,
+    Footer,
+    CommonModule,
+  ],
   templateUrl: './income.html',
-  styleUrl: './income.scss'
+  styleUrl: './income.scss',
 })
 export class Income {
   api = inject(ApiService);
-transactions: any[] = [];
   selectedTransaction: any = null;
   showEditModal = false;
   showViewModal = false;
-showDeleteModal = false;
+  showDeleteModal = false;
 
-ngOnInit() {
-    this.api.getTransactions().subscribe((res) => {
-      this.transactions = res.map((t) => {
-        return {
-          ...t,
-          data: new Date(t.data),
-        };
-      });
+  transactions: Transacao[] = [];
+  receitas: Transacao[] = [];
+
+  private transacaoService = inject(TransacoesService);
+
+  ngOnInit() {
+    this.loadTransactions();
+  }
+
+  loadTransactions() {
+    this.transacaoService.listarTransacoes().subscribe({
+      next: (data) => {
+        this.transactions = data;
+        console.log('Todas as transações carregadas:', this.transactions);
+
+        this.receitas = this.transactions.filter((t) => t.tipo === 'receita');
+        console.log('Receitas filtradas:', this.receitas);
+      },
+      error: (err) => console.error('Erro ao carregar transações', err),
     });
   }
 
@@ -45,29 +68,26 @@ ngOnInit() {
   }
 
   openViewModal(transaction: any) {
-  console.log('Abrindo modal View com transaction:', transaction);
-  this.selectedTransaction = transaction;
-  this.showViewModal = true;
-  this.showEditModal = false;
-  this.showDeleteModal = false;
-}
-
+    console.log('Abrindo modal View com transaction:', transaction);
+    this.selectedTransaction = transaction;
+    this.showViewModal = true;
+    this.showEditModal = false;
+    this.showDeleteModal = false;
+  }
 
   closeViewModal() {
     this.showViewModal = false;
     this.selectedTransaction = null;
   }
 
+  openDeleteModal(transaction: any) {
+    console.log('openDeleteModal chamado com:', transaction);
+    this.selectedTransaction = transaction;
+    this.showDeleteModal = true;
+  }
 
-openDeleteModal(transaction: any) {
-  console.log('openDeleteModal chamado com:', transaction);
-  this.selectedTransaction = transaction;
-  this.showDeleteModal = true;
-}
-
-closeDeleteModal() {
-  this.showDeleteModal = false;
-  this.selectedTransaction = null;
-}
-
+  closeDeleteModal() {
+    this.showDeleteModal = false;
+    this.selectedTransaction = null;
+  }
 }

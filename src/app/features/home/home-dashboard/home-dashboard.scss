@@ -1,18 +1,18 @@
 .graficos-container {
   display: flex;
   justify-content: center;
-  gap: 30px;
+  gap: 1.875rem;
   flex-wrap: wrap;
-  padding: 20px;
+  padding: 1.25rem;
 }
 
 .grafico-card {
   background-color: #f8f9fa;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
   width: 100%;
-  max-width: 450px;
+  max-width: 28.125rem;
   box-sizing: border-box;
 }
 
@@ -20,9 +20,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
-  border-bottom: 1px solid #dee2e6;
-  padding-bottom: 10px;
+  margin-bottom: 0.9375rem;
+  border-bottom: 0.0625rem solid #dee2e6;
+  padding-bottom: 0.625rem;
 
   h2 {
     margin: 0;

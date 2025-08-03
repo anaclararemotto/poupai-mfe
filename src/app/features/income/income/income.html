@@ -1,15 +1,14 @@
-<app-navbar/>
+<app-navbar />
 <section class="income">
-    <app-income-account/>
-    <app-time-filter/>
-     <app-card-transactions
-  *ngFor="let t of transactions"
-  [transaction]="t"
-  (edit)="openEditModal($event)"
-  (view)="openViewModal($event)"
-  (delete)="openDeleteModal($event)"
-></app-card-transactions>
-<app-transactions-button class="income__button"/>
+  <app-income-account />
+  <app-time-filter />
+  <app-card-transactions
+    *ngFor="let t of receitas"
+    [transaction]="t"
+    (edit)="openEditModal($event)"
+    (view)="openViewModal($event)"
+    (delete)="openDeleteModal($event)"
+  ></app-card-transactions>
+  <app-transactions-button class="income__button" />
 </section>
-<app-footer/>
-
+<app-footer />

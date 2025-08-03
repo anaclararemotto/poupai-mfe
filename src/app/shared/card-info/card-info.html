@@ -1,6 +1,6 @@
 <section class="info">
     <div class="info__card">
-    <div class="info__card__content">
+    <div class="info__card__content" routerLink="/income">
         <p class="info__card__content__text">Receitas</p>
         <p class="info__card__content__income">{{ totalReceitas | currency:'BRL':'symbol':'1.2-2'}}</p>
     </div>
@@ -9,7 +9,7 @@
     </div>
 </div>
 <div class="info__card">
-    <div class="info__card__content">
+    <div class="info__card__content" routerLink="/expense">
         <p class="info__card__content__text">Despesas</p>
         <p class="info__card__content__expenses">{{ totalDespesas | currency:'BRL':'symbol':'1.2-2'}}</p>
     </div>

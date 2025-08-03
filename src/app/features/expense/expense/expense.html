@@ -3,7 +3,7 @@
     <app-expense-account/>
     <app-time-filter/>
      <app-card-transactions
-  *ngFor="let t of transactions"
+  *ngFor="let t of despesas"
   [transaction]="t"
   (edit)="openEditModal($event)"
   (view)="openViewModal($event)"
