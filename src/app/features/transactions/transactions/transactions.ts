@@ -51,6 +51,11 @@ export class Transactions implements OnInit {
       next: (data) => {
         this.transactions = data;
         console.log('Transações carregadas:', this.transactions);
+        this.transactions.sort((a, b) => {
+          const dataA = new Date(a.data);
+          const dataB = new Date(b.data);
+          return dataB.getTime() - dataA.getTime();
+        });
       },
       error: (err) => console.error('Erro ao carregar transações', err),
     });

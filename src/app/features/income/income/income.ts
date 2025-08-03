@@ -48,6 +48,12 @@ export class Income {
         this.transactions = data;
         console.log('Todas as transações carregadas:', this.transactions);
 
+        this.transactions.sort((a, b) => {
+          const dataA = new Date(a.data);
+          const dataB = new Date(b.data);
+          return dataB.getTime() - dataA.getTime();
+        });
+
         this.receitas = this.transactions.filter((t) => t.tipo === 'receita');
         console.log('Receitas filtradas:', this.receitas);
       },
