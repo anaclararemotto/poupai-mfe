@@ -46,8 +46,11 @@
 @include respond(md) {
   .account-card {
     &__nav {
-      gap: 40%;
-      padding: 0.625rem;
+      justify-content: center;
+
+      &__return{
+        display: none;
+      }
       &__dropdown {
         width: 22%;
       }
