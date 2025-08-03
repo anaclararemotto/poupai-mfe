@@ -9,7 +9,7 @@
 
 @include respond(md) {
   .expense {
-    padding: 0px 3.125rem;
+    padding: 0rem 3.125rem;
    
     &__button{
         display: none;
@@ -18,6 +18,6 @@
 }
 @include respond(lg) {
   .expense {
-    padding: 0px 10.625rem;
+    padding: 0rem 10.625rem;
   }
 }

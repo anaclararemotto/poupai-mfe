@@ -2,14 +2,24 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+interface TotalResponse {
+  totalReceitas?: number;
+  totalDespesas?: number;
+}
+
+interface PopulatedField {
+  _id: string;
+  nome: string;
+}
+
 export interface Transacao {
   _id: string;
   tipo: 'receita' | 'despesa' | 'transferencia';
   valor: number;
   data: string;
-  categoria?: string;
-  bancoOrigem?: any; 
-  bancoDestino?: any; 
+  categoria?: string | PopulatedField;
+  bancoOrigem?: string | PopulatedField;
+  bancoDestino?: string | PopulatedField;
   conta: string;
 }
 
@@ -28,17 +38,37 @@ export interface NovaTransacao {
   providedIn: 'root',
 })
 export class TransacoesService {
-  private apiUrl = 'http://localhost:4000/transacoes';
+  private apiUrl = 'http://localhost:4000/transacao';
 
   constructor(private http: HttpClient) {}
 
- 
   listarTransacoes(): Observable<Transacao[]> {
-    return this.http.get<Transacao[]>(this.apiUrl);
+    return this.http.get<Transacao[]>(`${this.apiUrl}/transacoes`);
   }
 
- 
   criarTransacao(transacao: NovaTransacao): Observable<any> {
-    return this.http.post(this.apiUrl, transacao);
+    return this.http.post(`${this.apiUrl}/transacoes`, transacao);
+  }
+
+  excluirTransacao(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/transacoes/${id}`);
+  }
+
+  editarTransacao(
+    id: string,
+    transacaoAtualizada: Partial<NovaTransacao>
+  ): Observable<any> {
+    return this.http.put(
+      `${this.apiUrl}/transacoes/${id}`,
+      transacaoAtualizada
+    );
+  }
+
+  getTotalReceitas(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/total-receitas`);
+  }
+
+  getTotalDespesas(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/total-despesas`);
   }
 }

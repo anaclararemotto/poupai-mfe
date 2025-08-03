@@ -35,7 +35,7 @@ export class HomeDashboard {
     datasets: [
       {
         data: [3700, 750, 400],
-        backgroundColor: ['#198754', '#0d6efd', '#ffc107'], // Verde, Azul, Amarelo
+        backgroundColor: ['#198754', '#0d6efd', '#ffc107'],
         hoverBackgroundColor: ['#157347', '#0b5ed7', '#d39e00'],
         borderColor: '#f0f0f0',
       },

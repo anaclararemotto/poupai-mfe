@@ -1,4 +1,4 @@
-<div class="modal modal-delete" *ngIf="show">
+<div class="modal modal-delete" [ngClass]="{'is-active': show}">
   <div class="modal-delete__dialog" role="document">
     <div class="modal-delete__dialog__header">
       <button type="button" class="btn-close" (click)="onClose()"></button>

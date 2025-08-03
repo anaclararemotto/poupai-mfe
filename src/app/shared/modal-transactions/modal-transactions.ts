@@ -18,7 +18,7 @@ import { Banco, BancoService } from '../../core/services/banco.service';
 import {
   Categoria,
   CategoriaService,
-} from '../../core/services/categoria.services';
+} from '../../core/services/categoria.service';
 
 @Component({
   selector: 'app-modal-transactions',

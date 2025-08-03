@@ -8,21 +8,16 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './modal-delete.scss'
 })
 export class ModalDelete {
-@Input() show = false;
-  @Input() selectedTransaction: any;
-
+@Input() show: boolean = false;
+  @Input() selectedTransaction: any; 
   @Output() close = new EventEmitter<void>();
-  @Output() confirm = new EventEmitter<string>();
+  @Output() confirm = new EventEmitter<void>(); 
+
+  onConfirm() {
+    this.confirm.emit();
+  }
 
   onClose() {
     this.close.emit();
-  }
-
-  ngOnInit() {
-  console.log('MODAL DELETE ABRIU:', this.selectedTransaction);
-}
-
-  onConfirm() {
-    this.confirm.emit(this.selectedTransaction?._id);
   }
 }
