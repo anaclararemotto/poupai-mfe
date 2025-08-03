@@ -1,6 +1,10 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Categoria } from '../../core/services/categoria.services';
+import {
+  Transacao,
+  TransacoesService,
+} from '../../core/services/transacoes.service';
 
 @Component({
   selector: 'app-card-transactions',
@@ -9,24 +13,24 @@ import { Categoria } from '../../core/services/categoria.services';
   styleUrl: './card-transactions.scss',
 })
 export class CardTransactions {
-  @Input() transaction: any;
+  @Input() transaction: any; 
   @Output() edit = new EventEmitter<any>();
   @Output() view = new EventEmitter<any>();
-  @Output() delete = new EventEmitter<any>();
+  @Output() delete = new EventEmitter<any>(); 
+  categorias: Categoria[] = []; 
 
-  categorias: Categoria[] = [];
 
   onEdit() {
     this.edit.emit(this.transaction);
   }
 
   onView() {
-  this.view.emit(this.transaction);
-}
-  onDelete() {
-  this.delete.emit(this.transaction);
-}
+    this.view.emit(this.transaction);
+  }
 
+  onDelete() {
+    this.delete.emit(this.transaction);
+  }
 
 
   getIconClass(tipo: string): string {
@@ -53,9 +57,9 @@ export class CardTransactions {
         transaction.bancoDestino?.nome || ''
       }`;
     }
-    
+
     const nomeCategoria = transaction.categoria?.nome || '';
-    
+
     if (transaction.tipo === 'receita') {
       return `${transaction.bancoDestino?.nome || ''} | ${nomeCategoria}`;
     }
@@ -65,7 +69,6 @@ export class CardTransactions {
 
     return '';
   }
-
 
   formatarValor(valor: number): string {
     if (valor == null) return '';

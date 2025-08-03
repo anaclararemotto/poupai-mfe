@@ -44,7 +44,7 @@ export class TransacoesService {
     return this.http.post(`${this.apiUrl}/transacoes`, transacao);
   }
 
- getTotalReceitas(): Observable<any> {
+  getTotalReceitas(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/total-receitas`);
   }
 
@@ -52,4 +52,7 @@ export class TransacoesService {
     return this.http.get<any>(`${this.apiUrl}/total-despesas`);
   }
 
+  excluirTransacao(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/transacoes/${id}`);
+  }
 }

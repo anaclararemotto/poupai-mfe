@@ -3,11 +3,11 @@
   <app-transactions-account />
   <app-time-filter (filterChange)="onFilterChange($event)"/>
   <app-card-transactions
-    *ngFor="let t of filteredTransactions"  [transaction]="t"
+    *ngFor="let t of filteredTransactions"
     [transaction]="t"
     (edit)="openEditModal($event)"
     (view)="openViewModal($event)"
-    (delete)="openDeleteModal($event)"
+    (delete)="onDeleteTransaction($event)"
   ></app-card-transactions>
 
   <app-modal-edit
@@ -30,6 +30,7 @@
     [show]="showDeleteModal"
     [selectedTransaction]="selectedTransaction"
     (close)="closeDeleteModal()"
+    (confirm)="onConfirmDelete()"
   ></app-modal-delete>
 
   <app-transactions-button class="transactions__button" />

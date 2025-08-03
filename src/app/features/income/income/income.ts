@@ -11,6 +11,7 @@ import { Navbar } from '../../../shared/navbar/navbar';
 import { TimeFilter } from '../../../shared/time-filter/time-filter';
 import { TransactionsButton } from '../../../shared/transactions-button/transactions-button';
 import { IncomeAccount } from '../income-account/income-account';
+import { ModalDelete } from "../../../shared/modal-delete/modal-delete";
 
 @Component({
   selector: 'app-income',
@@ -22,7 +23,8 @@ import { IncomeAccount } from '../income-account/income-account';
     TransactionsButton,
     Footer,
     CommonModule,
-  ],
+    ModalDelete
+],
   templateUrl: './income.html',
   styleUrl: './income.scss',
 })
@@ -122,6 +124,37 @@ export class Income {
     });
   }
 
+  onDeleteTransaction(transaction: any) {
+    this.selectedTransaction = transaction; 
+    this.showDeleteModal = true; 
+    this.showEditModal = false;
+    this.showViewModal = false;
+  }
+
+  onConfirmDelete() {
+  console.log('Confirmando exclusão para transação:', this.selectedTransaction); 
+  if (this.selectedTransaction && this.selectedTransaction._id) {
+    this.transacaoService.excluirTransacao(this.selectedTransaction._id).subscribe({
+      next: () => {
+        console.log('Transação excluída com sucesso!');
+        this.closeDeleteModal();
+        this.loadTransactions();
+      },
+      error: (err) => {
+        console.error('Erro ao excluir transação', err);
+        this.closeDeleteModal();
+      },
+    });
+  } else {
+    console.error('Nenhuma transação selecionada ou ID ausente.'); 
+  }
+  }
+
+  closeDeleteModal() {
+    this.showDeleteModal = false;
+    this.selectedTransaction = null; 
+  }
+
   openEditModal(transaction: any) {
     this.selectedTransaction = transaction;
     this.showEditModal = true;
@@ -144,17 +177,6 @@ export class Income {
 
   closeViewModal() {
     this.showViewModal = false;
-    this.selectedTransaction = null;
-  }
-
-  openDeleteModal(transaction: any) {
-    console.log('openDeleteModal chamado com:', transaction);
-    this.selectedTransaction = transaction;
-    this.showDeleteModal = true;
-  }
-
-  closeDeleteModal() {
-    this.showDeleteModal = false;
     this.selectedTransaction = null;
   }
 }

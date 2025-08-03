@@ -7,8 +7,15 @@
     [transaction]="t"
     (edit)="openEditModal($event)"
     (view)="openViewModal($event)"
-    (delete)="openDeleteModal($event)"
+    (delete)="onDeleteTransaction($event)"
   ></app-card-transactions>
+    <app-modal-delete
+    *ngIf="showDeleteModal"
+    [show]="showDeleteModal"
+    [selectedTransaction]="selectedTransaction"
+    (close)="closeDeleteModal()"
+    (confirm)="onConfirmDelete()"
+  ></app-modal-delete>
   <app-transactions-button class="income__button" />
 </section>
 <app-footer />
