@@ -7,16 +7,22 @@ interface TotalResponse {
   totalDespesas?: number;
 }
 
+interface PopulatedField {
+  _id: string;
+  nome: string;
+}
+
 export interface Transacao {
   _id: string;
   tipo: 'receita' | 'despesa' | 'transferencia';
   valor: number;
   data: string;
-  categoria?: string;
-  bancoOrigem?: any;
-  bancoDestino?: any;
+  categoria?: string | PopulatedField;
+  bancoOrigem?: string | PopulatedField;
+  bancoDestino?: string | PopulatedField;
   conta: string;
 }
+
 
 export interface NovaTransacao {
   tipo: 'receita' | 'despesa' | 'transferencia';
@@ -44,15 +50,25 @@ export class TransacoesService {
     return this.http.post(`${this.apiUrl}/transacoes`, transacao);
   }
 
+  excluirTransacao(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/transacoes/${id}`);
+  }
+
+  editarTransacao(
+    id: string,
+    transacaoAtualizada: Partial<NovaTransacao>
+  ): Observable<any> {
+    return this.http.put(
+      `${this.apiUrl}/transacoes/${id}`,
+      transacaoAtualizada
+    );
+  }
+
   getTotalReceitas(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/total-receitas`);
   }
 
   getTotalDespesas(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/total-despesas`);
-  }
-
-  excluirTransacao(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/transacoes/${id}`);
   }
 }

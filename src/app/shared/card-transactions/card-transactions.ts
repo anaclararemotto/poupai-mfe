@@ -1,6 +1,6 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { Categoria } from '../../core/services/categoria.services';
+import { Categoria } from '../../core/services/categoria.service';
 import {
   Transacao,
   TransacoesService,
@@ -24,8 +24,8 @@ export class CardTransactions {
     this.edit.emit(this.transaction);
   }
 
-  onView() {
-    this.view.emit(this.transaction);
+  onViewClick(): void {
+    this.view.emit(this.transaction); 
   }
 
   onDelete() {

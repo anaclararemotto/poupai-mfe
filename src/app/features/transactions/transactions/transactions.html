@@ -5,23 +5,21 @@
   <app-card-transactions
     *ngFor="let t of filteredTransactions"
     [transaction]="t"
-    (edit)="openEditModal($event)"
+    (edit)="onEditTransaction($event)"
     (view)="openViewModal($event)"
     (delete)="onDeleteTransaction($event)"
   ></app-card-transactions>
 
   <app-modal-edit
     *ngIf="showEditModal"
-    [show]="true"
-    [tipo]="selectedTransaction?.tipo"
-    [transaction]="selectedTransaction"
-    [transacaoId]="selectedTransaction?._id"
-    (close)="closeEditModal()"
+  [show]="showEditModal"
+  [transaction]="selectedTransaction"
+  (close)="closeEditModal()"
+  (save)="onSaveEditedTransaction($event)"
   ></app-modal-edit>
   <app-modal-view
     *ngIf="showViewModal"
-    [show]="true"
-    [tipo]="selectedTransaction?.tipo"
+    [show]="showViewModal" 
     [selectedTransaction]="selectedTransaction"
     (close)="closeViewModal()"
   ></app-modal-view>
