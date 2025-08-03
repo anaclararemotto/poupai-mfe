@@ -1,31 +1,48 @@
 <section class="account-card">
   <div class="account-card__nav">
     <i class="bi bi-chevron-compact-left text-light"></i>
-    <select class="form-select account-card__nav__dropdown text-light" aria-label="Receitas">
-      <option selected class="form-select account-card__nav__dropdown__option">Receitas</option>
-      <option value="" class="form-select account-card__nav__dropdown__option">Transações</option>
-      <option value="" class="form-select account-card__nav__dropdown__option">Despesas</option>
+    <select
+      class="form-select account-card__nav__dropdown text-light"
+      aria-label="Receitas"
+      (change)="navigateTo($event)"
+      #selectRef
+    >
+      <option selected class="form-select account-card__nav__dropdown__option">
+        Receitas
+      </option>
+      <option
+        value="transactions"
+        class="form-select account-card__nav__dropdown__option"
+      >
+        Transações
+      </option>
+      <option
+        value="expense"
+        class="form-select account-card__nav__dropdown__option"
+      >
+        Despesas
+      </option>
     </select>
   </div>
   <div class="account-card__menu">
-    <app-card-info/>
+    <app-card-info />
     <app-actions
-        class="account-card__menu__actions"
-        (statement)="openStatementModal()"
-        (abrirModal)="openModal($event)"
-      />
-      <app-modal-statement
-        *ngIf="showStatementModal"
-        [show]="true"
-        (close)="closeStatementModal()"
-      >
-      </app-modal-statement>
-      <app-modal-transactions
+      class="account-card__menu__actions"
+      (statement)="openStatementModal()"
+      (abrirModal)="openModal($event)"
+    />
+    <app-modal-statement
+      *ngIf="showStatementModal"
+      [show]="true"
+      (close)="closeStatementModal()"
+    >
+    </app-modal-statement>
+    <app-modal-transactions
       *ngIf="showModal"
       [show]="true"
       [tipo]="modalTipo"
       (close)="closeModal()"
-      >
-      </app-modal-transactions>
+    >
+    </app-modal-transactions>
   </div>
 </section>
