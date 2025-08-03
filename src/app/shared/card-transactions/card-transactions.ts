@@ -53,19 +53,19 @@ export class CardTransactions {
         transaction.bancoDestino?.nome || ''
       }`;
     }
-     if (transaction.tipo === 'receita') {
-      return `${transaction.bancoDestino?.nome || ''} | ${
-        transaction.categoria?.nome || ''
-      }`;
+    
+    const nomeCategoria = transaction.categoria?.nome || '';
+    
+    if (transaction.tipo === 'receita') {
+      return `${transaction.bancoDestino?.nome || ''} | ${nomeCategoria}`;
     }
     if (transaction.tipo === 'despesa') {
-      return `${transaction.bancoOrigem?.nome || ''} | ${
-        transaction.categoria?.nome || ''
-      }`;
+      return `${transaction.bancoOrigem?.nome || ''} | ${nomeCategoria}`;
     }
 
     return '';
   }
+
 
   formatarValor(valor: number): string {
     if (valor == null) return '';

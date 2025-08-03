@@ -1,16 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ApiService } from '../../../core/services/api.service';
-import { CardTransactions } from '../../../shared/card-transactions/card-transactions';
-import { Navbar } from '../../../shared/navbar/navbar';
-import { TimeFilter } from '../../../shared/time-filter/time-filter';
-import { IncomeAccount } from '../income-account/income-account';
-import { TransactionsButton } from '../../../shared/transactions-button/transactions-button';
-import { Footer } from '../../../shared/footer/footer';
 import {
   Transacao,
   TransacoesService,
 } from '../../../core/services/transacoes.service';
-import { CommonModule } from '@angular/common';
+import { CardTransactions } from '../../../shared/card-transactions/card-transactions';
+import { Footer } from '../../../shared/footer/footer';
+import { Navbar } from '../../../shared/navbar/navbar';
+import { TimeFilter } from '../../../shared/time-filter/time-filter';
+import { TransactionsButton } from '../../../shared/transactions-button/transactions-button';
+import { IncomeAccount } from '../income-account/income-account';
 
 @Component({
   selector: 'app-income',
@@ -35,6 +35,7 @@ export class Income {
 
   transactions: Transacao[] = [];
   receitas: Transacao[] = [];
+  filteredTransactions: Transacao[] = [];
 
   private transacaoService = inject(TransacoesService);
 
@@ -46,18 +47,78 @@ export class Income {
     this.transacaoService.listarTransacoes().subscribe({
       next: (data) => {
         this.transactions = data;
-        console.log('Todas as transações carregadas:', this.transactions);
+        this.receitas = this.transactions.filter((t) => t.tipo === 'receita');
 
-        this.transactions.sort((a, b) => {
+        this.receitas.sort((a, b) => {
           const dataA = new Date(a.data);
           const dataB = new Date(b.data);
           return dataB.getTime() - dataA.getTime();
         });
 
-        this.receitas = this.transactions.filter((t) => t.tipo === 'receita');
-        console.log('Receitas filtradas:', this.receitas);
+        this.applyFilter(2);
       },
       error: (err) => console.error('Erro ao carregar transações', err),
+    });
+  }
+
+  onFilterChange(index: number): void {
+    this.applyFilter(index);
+  }
+
+  applyFilter(index: number): void {
+    const today = new Date();
+    let parseDate: Date;
+
+    switch (index) {
+      case 0:
+        parseDate = new Date(
+          today.getFullYear(),
+          today.getMonth(),
+          today.getDate() - 7
+        );
+        break;
+      case 1:
+        parseDate = new Date(
+          today.getFullYear(),
+          today.getMonth(),
+          today.getDate() - 15
+        );
+        break;
+      case 2:
+        parseDate = new Date(
+          today.getFullYear(),
+          today.getMonth() - 1,
+          today.getDate()
+        );
+        break;
+      case 3:
+        parseDate = new Date(
+          today.getFullYear(),
+          today.getMonth() - 3,
+          today.getDate()
+        );
+        break;
+      case 4:
+        parseDate = new Date(
+          today.getFullYear(),
+          today.getMonth() - 6,
+          today.getDate()
+        );
+        break;
+      case 5:
+        parseDate = new Date(
+          today.getFullYear() - 1,
+          today.getMonth(),
+          today.getDate()
+        );
+        break;
+      default:
+        parseDate = new Date(0);
+    }
+
+    this.filteredTransactions = this.receitas.filter((t) => {
+      const transactionDate = new Date(t.data);
+      return transactionDate >= parseDate;
     });
   }
 
