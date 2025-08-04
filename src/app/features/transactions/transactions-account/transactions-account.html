@@ -37,14 +37,14 @@
       *ngIf="showStatementModal"
       [show]="true"
       (close)="closeStatementModal()"
-    >
-    </app-modal-statement>
+    ></app-modal-statement>
+
     <app-modal-transactions
       *ngIf="showModal"
-      [show]="true"
+      [show]="showModal"
       [tipo]="modalTipo"
-      (close)="closeModal()"
-    >
-    </app-modal-transactions>
+      [contaId]="conta?._id || ''" (close)="closeModal()"
+      (transacaoSalva)="handleTransactionSaved()" ></app-modal-transactions>
+
   </div>
 </section>

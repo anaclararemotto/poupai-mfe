@@ -14,6 +14,8 @@
     [contaId]="conta?._id || ''"
     (close)="closeModal()"
     (transacaoSalva)="loadTransactions()"
+    (transacaoSalva)="loadAllData()"
+    (transacaoSalva)="reloadPage()"
 ></app-modal-transactions>
 
       <app-card-info class="home__content__info-actions__info" />

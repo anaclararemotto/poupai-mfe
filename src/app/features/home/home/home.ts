@@ -3,7 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { Banco } from '../../../core/services/banco.service';
 import { Categoria } from '../../../core/services/categoria.service';
 import { Conta, ContaService } from '../../../core/services/conta.service';
-import { Transacao, TransacoesService } from '../../../core/services/transacoes.service';
+import {
+  Transacao,
+  TransacoesService,
+} from '../../../core/services/transacoes.service';
 import { Actions } from '../../../shared/actions/actions';
 import { CardInfo } from '../../../shared/card-info/card-info';
 import { Footer } from '../../../shared/footer/footer';
@@ -38,11 +41,11 @@ export class Home implements OnInit {
   showModal = false;
   modalTipo: 'receita' | 'despesa' | 'transferencia' | null = null;
 
-   transacoes: Transacao[] = [];
+  transacoes: Transacao[] = [];
 
   isLoadingTransactions = false;
 
-   conta: Conta | null = null;
+  conta: Conta | null = null;
 
   constructor(
     private contaService: ContaService,
@@ -50,42 +53,54 @@ export class Home implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadConta();
+    this.loadConta();
+    this.loadTransactions();
+    this.loadAllData();
+  }
+
+  reloadPage(): void {
+    window.location.reload();
+  }
+
+  loadAllData(): void {
+    this.loadConta();
     this.loadTransactions();
   }
 
-loadConta(): void {
-    this.contaService.getContaDoUsuario().subscribe({
-      next: (data) => {
-        this.conta = data;
-        console.log('Conta carregada:', this.conta);
-      },
-      error: (err) => {
-        console.error('Erro ao carregar a conta', err);
-      }
-    });
-  }
+  loadConta(): void {
+    this.contaService.getContaDoUsuario().subscribe({
+      next: (data) => {
+        this.conta = data;
+        console.log('Conta carregada:', this.conta);
+      },
+      error: (err) => {
+        console.error('Erro ao carregar a conta', err);
+      },
+    });
+  }
 
   loadTransactions() {
-  this.transacoesService.listarTransacoes().subscribe({
-    next: (data) => {
-      this.transacoes = data;
-    },
-    error: (err) => {
-      console.error('Erro ao carregar transações', err);
-    },
-  });
+    this.transacoesService.listarTransacoes().subscribe({
+      next: (data) => {
+        this.transacoes = data;
+      },
+      error: (err) => {
+        console.error('Erro ao carregar transações', err);
+      },
+    });
   }
 
   openModal(tipo: 'receita' | 'despesa' | 'transferencia') {
     this.modalTipo = tipo;
     this.showModal = true;
-     if (this.conta && this.conta._id) {
-    this.modalTipo = tipo;
-    this.showModal = true;
-  } else {
-    console.error('Erro: A conta não está carregada. Não é possível abrir o modal.');
-  }
+    if (this.conta && this.conta._id) {
+      this.modalTipo = tipo;
+      this.showModal = true;
+    } else {
+      console.error(
+        'Erro: A conta não está carregada. Não é possível abrir o modal.'
+      );
+    }
   }
 
   closeModal() {
