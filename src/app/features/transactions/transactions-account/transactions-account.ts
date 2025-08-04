@@ -6,6 +6,7 @@ import { CardInfo } from '../../../shared/card-info/card-info';
 import { ModalStatement } from '../../../shared/modal-statement/modal-statement';
 import { ModalTransactions } from '../../../shared/modal-transactions/modal-transactions';
 import { Conta, ContaService } from '../../../core/services/conta.service';
+import { Transacao, TransacoesService } from '../../../core/services/transacoes.service';
 
 @Component({
   selector: 'app-transactions-account',
@@ -17,17 +18,21 @@ import { Conta, ContaService } from '../../../core/services/conta.service';
 export class TransactionsAccount implements OnInit {
   showStatementModal = false;
   private router = inject(Router);
+transacoes: Transacao[] = [];
+
 
   showModal = false;
   modalTipo: 'receita' | 'despesa' | 'transferencia' | null = null;
   conta: Conta | null = null;
 
   constructor(
-    private contaService: ContaService
+    private contaService: ContaService,
+     private transacoesService: TransacoesService,
   ) {}
 
   ngOnInit(): void {
     this.loadConta();
+     this.loadTransacoes();
   }
   reloadPage(): void {
     window.location.reload();
@@ -61,9 +66,22 @@ export class TransactionsAccount implements OnInit {
     this.modalTipo = null;
   }
 
+  loadTransacoes(): void {
+    this.transacoesService.listarTransacoes().subscribe({
+      next: (data) => {
+        this.transacoes = data;
+        console.log("Transações carregadas:", this.transacoes);
+      },
+      error: (err) => {
+        console.error("Erro ao carregar transações", err);
+      },
+    });
+  }
+
   handleTransactionSaved(): void {
-    console.log('Transação salva em TransactionsAccount. Fechando modal.');
+    console.log('Transação salva, recarregando lista...');
     this.closeModal();
+    this.loadTransacoes();
   }
 
   openStatementModal() {

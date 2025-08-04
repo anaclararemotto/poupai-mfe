@@ -27,7 +27,7 @@ export interface Transacao {
 export interface NovaTransacao {
   tipo: 'receita' | 'despesa' | 'transferencia';
   valor: number;
-  data: string;
+  data: string ;
   categoria?: string;
   bancoOrigem?: string;
   bancoDestino?: string;

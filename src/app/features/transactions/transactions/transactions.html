@@ -19,7 +19,7 @@
   ></app-modal-edit>
   <app-modal-view
     *ngIf="showViewModal"
-    [show]="showViewModal" 
+    [show]="showViewModal"
     [selectedTransaction]="selectedTransaction"
     (close)="closeViewModal()"
   ></app-modal-view>
@@ -29,6 +29,7 @@
     [selectedTransaction]="selectedTransaction"
     (close)="closeDeleteModal()"
     (confirm)="onConfirmDelete()"
+    
   ></app-modal-delete>
 
   <app-transactions-button class="transactions__button" />

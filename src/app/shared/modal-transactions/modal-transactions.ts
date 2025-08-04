@@ -44,15 +44,20 @@ export class ModalTransactions implements OnInit, OnChanges {
   isSaving = false;
   message: string | null = null;
   isError = false;
-
+private formatDateToInput(date: Date): string {
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
 
   constructor(
     private transacoesService: TransacoesService,
     private bancoService: BancoService,
-    private categoriaService: CategoriaService
+    private categoriaService: CategoriaService,
+
   ) {
-    this.dataHoje = new Date().toISOString().split('T')[0];
-  }
+this.dataHoje = this.formatDateToInput(new Date());  }
 
   ngOnInit(): void {
     this.carregarBancos();
@@ -91,6 +96,8 @@ export class ModalTransactions implements OnInit, OnChanges {
   onClose(): void {
     this.close.emit();
   }
+
+
 salvarTransacao(form: NgForm) {
   if (!this.tipo) {
     console.error('Tipo da transação não definido');
@@ -105,7 +112,7 @@ salvarTransacao(form: NgForm) {
     let payload: NovaTransacao;
     const commonPayload = {
       valor: this.parseValor(form.value.valor),
-      data: form.value.data,
+      data: new Date().toISOString(),
       conta: this.contaId,
       tipo: this.tipo,
     };
