@@ -3,42 +3,48 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output,
-  OnInit,
   OnChanges,
-  SimpleChanges,
+  OnInit,
+  Output,
+  SimpleChanges
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NgxMaskDirective } from 'ngx-mask';
-import {
-  TransacoesService,
-  NovaTransacao,
-} from '../../core/services/transacoes.service';
+import { finalize } from 'rxjs';
 import { Banco, BancoService } from '../../core/services/banco.service';
 import {
   Categoria,
   CategoriaService,
 } from '../../core/services/categoria.service';
+import {
+  NovaTransacao,
+  TransacoesService,
+} from '../../core/services/transacoes.service';
 
 @Component({
   selector: 'app-modal-transactions',
   standalone: true,
-  imports: [CommonModule, FormsModule, NgxMaskDirective],
+  imports: [CommonModule,  FormsModule, NgxMaskDirective],
   templateUrl: './modal-transactions.html',
   styleUrls: ['./modal-transactions.scss'],
 })
 export class ModalTransactions implements OnInit, OnChanges {
   @Input() show = false;
-  @Input() tipo: 'receita' | 'despesa' | 'transferencia' | null = 'receita';
-  @Input() contaId!: string;
+  @Input()   tipo: 'receita' | 'despesa' | 'transferencia' | null = null;
 
+  @Input() contaId!: string;
+@Input() bancos: Banco[] = [];
+  @Input() categoriasFiltradas: Categoria[] = [];
   @Output() close = new EventEmitter<void>();
   @Output() transacaoSalva = new EventEmitter<void>();
 
   dataHoje: string;
-  bancos: Banco[] = [];
   categorias: Categoria[] = [];
-  categoriasFiltradas: Categoria[] = [];
+
+  isSaving = false;
+  message: string | null = null;
+  isError = false;
+
 
   constructor(
     private transacoesService: TransacoesService,
@@ -85,49 +91,91 @@ export class ModalTransactions implements OnInit, OnChanges {
   onClose(): void {
     this.close.emit();
   }
-
-  salvarTransacao(form: NgForm): void {
-    if (form.invalid) {
-      console.error('Formulário inválido!');
-      return;
-    }
-    if (!this.contaId) {
-      alert('Erro: ID da conta do usuário não fornecido.');
-      return;
-    }
-
-    const formValues = form.value;
-    const valorNumerico = this.converterValorParaNumero(formValues.valor);
-
-    const novaTransacao: NovaTransacao = {
-      tipo: this.tipo!,
-      valor: valorNumerico,
-      data: formValues.data,
-      categoria: formValues.categoria,
-      bancoOrigem: formValues.bancoOrigem,
-      bancoDestino: formValues.bancoDestino,
-      conta: this.contaId,
-    };
-
-    this.transacoesService.criarTransacao(novaTransacao).subscribe({
-      next: (response) => {
-        alert(`Transação de ${this.tipo} criada com sucesso!`);
-        this.transacaoSalva.emit();
-        this.onClose();
-      },
-      error: (err) => {
-        console.error('Erro ao criar transação:', err);
-        alert(`Erro: ${err.error.message || 'Falha ao criar transação.'}`);
-      },
-    });
+salvarTransacao(form: NgForm) {
+  if (!this.tipo) {
+    console.error('Tipo da transação não definido');
+    return;
   }
 
-  private converterValorParaNumero(valorString: string): number {
-    if (!valorString) return 0;
-    const valorLimpo = String(valorString)
-      .replace('R$ ', '')
-      .replace(/\./g, '')
-      .replace(',', '.');
-    return parseFloat(valorLimpo);
+  if (form.valid) {
+    this.isSaving = true;
+    this.message = null;
+    this.isError = false;
+
+    let payload: NovaTransacao;
+    const commonPayload = {
+      valor: this.parseValor(form.value.valor),
+      data: form.value.data,
+      conta: this.contaId,
+      tipo: this.tipo,
+    };
+
+    switch (this.tipo) {
+      case 'receita':
+        payload = {
+          ...commonPayload,
+          categoria: form.value.categoria,
+          bancoDestino: form.value.bancoDestino,
+        };
+        break;
+
+      case 'despesa':
+        payload = {
+          ...commonPayload,
+          categoria: form.value.categoria,
+          bancoOrigem: form.value.bancoOrigem,
+        };
+        break;
+
+      case 'transferencia':
+        payload = {
+          ...commonPayload,
+          bancoOrigem: form.value.bancoOrigem,
+          bancoDestino: form.value.bancoDestino,
+        };
+        break;
+
+      default:
+        console.error('Tipo de transação inválido');
+        this.isSaving = false;
+        return;
+    }
+
+    console.log('Payload enviado:', payload);
+
+    this.transacoesService.criarTransacao(payload)
+      .pipe(
+        finalize(() => {
+          this.isSaving = false;
+        })
+      )
+      .subscribe({
+        next: () => {
+          this.message = 'Transação criada com sucesso!';
+          this.isError = false;
+          form.resetForm();
+          this.transacaoSalva.emit();
+          setTimeout(() => this.onClose(), 2000);
+        },
+        error: (err) => {
+          this.message = 'Erro ao criar transação. Por favor, tente novamente.';
+          this.isError = true;
+          console.error('Erro ao criar transação', err);
+        },
+      });
+  }
+}
+
+
+
+
+  private parseValor(valorComMascara: string): number {
+    if (!valorComMascara) return 0;
+    return Number(
+      valorComMascara
+        .replace('R$ ', '')
+        .replace(/\./g, '')
+        .replace(',', '.')
+    );
   }
 }

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Conta {
-  id: string;
+  _id: string;
   saldo: string;
   usuário: string;
 }

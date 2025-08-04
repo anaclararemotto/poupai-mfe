@@ -46,8 +46,8 @@ export class TransacoesService {
     return this.http.get<Transacao[]>(`${this.apiUrl}/transacoes`);
   }
 
-  criarTransacao(transacao: NovaTransacao): Observable<any> {
-    return this.http.post(`${this.apiUrl}/transacoes`, transacao);
+  criarTransacao(payload: any){
+    return this.http.post(`${this.apiUrl}/transacoes`, payload);
   }
 
   excluirTransacao(id: string): Observable<any> {

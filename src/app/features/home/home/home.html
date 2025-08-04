@@ -3,24 +3,19 @@
   <div class="home__content">
     <app-home-account class="home__account" />
     <div class="home__content__info-actions">
-      <app-actions
-        class="home__content__info-actions__actions"
-        (statement)="openStatementModal()"
-        (abrirModal)="openModal($event)"
-      />
-      <app-modal-statement
-        *ngIf="showStatementModal"
-        [show]="true"
-        (close)="closeStatementModal()"
-      >
+      <app-actions class="home__content__info-actions__actions" (statement)="openStatementModal()"
+        (abrirModal)="openModal($event)" />
+      <app-modal-statement *ngIf="showStatementModal" [show]="true" (close)="closeStatementModal()">
       </app-modal-statement>
       <app-modal-transactions
-        *ngIf="showModal"
-        [show]="true"
-        [tipo]="modalTipo"
-        (close)="closeModal()"
-      >
-      </app-modal-transactions>
+    *ngIf="showModal"
+    [show]="showModal"
+    [tipo]="modalTipo"
+    [contaId]="conta?._id || ''"
+    (close)="closeModal()"
+    (transacaoSalva)="loadTransactions()"
+></app-modal-transactions>
+
       <app-card-info class="home__content__info-actions__info" />
     </div>
   </div>
