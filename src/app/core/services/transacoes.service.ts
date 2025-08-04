@@ -2,9 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-interface TotalResponse {
+interface TotalData {
   totalReceitas?: number;
   totalDespesas?: number;
+}
+
+interface CategorizedData {
+  _id: string;
+  total: number;
 }
 
 interface PopulatedField {
@@ -23,7 +28,6 @@ export interface Transacao {
   conta: string;
 }
 
-
 export interface NovaTransacao {
   tipo: 'receita' | 'despesa' | 'transferencia';
   valor: number;
@@ -33,6 +37,7 @@ export interface NovaTransacao {
   bancoDestino?: string;
   conta: string;
 }
+
 
 @Injectable({
   providedIn: 'root',
@@ -71,4 +76,13 @@ export class TransacoesService {
   getTotalDespesas(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/total-despesas`);
   }
+
+ getReceitasPorCategoriaMes(): Observable<CategorizedData[]> {
+    return this.http.get<CategorizedData[]>(`${this.apiUrl}/receitas-mes`);
+  }
+
+  getDespesasPorCategoriaMes(): Observable<CategorizedData[]> {
+    return this.http.get<CategorizedData[]>(`${this.apiUrl}/despesas-mes`);
+  }
+
 }
