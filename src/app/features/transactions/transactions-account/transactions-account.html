@@ -3,48 +3,28 @@
     <a class="btn account-card__nav__return" href="/home">
       <i class="bi bi-chevron-compact-left text-light"></i>
     </a>
-    <select
-      class="form-select account-card__nav__dropdown text-light"
-      aria-label="Transações"
-      (change)="navigateTo($event)"
-      #selectRef
-    >
+    <select class="form-select account-card__nav__dropdown text-light" aria-label="Transações"
+      (change)="navigateTo($event)" #selectRef>
       <option selected class="form-select account-card__nav__dropdown__option">
         Transações
       </option>
-      <option
-        value="income"
-        class="form-select account-card__nav__dropdown__option"
-      >
+      <option value="income" class="form-select account-card__nav__dropdown__option">
         Receitas
       </option>
-      <option
-        value="expense"
-        class="form-select account-card__nav__dropdown__option"
-      >
+      <option value="expense" class="form-select account-card__nav__dropdown__option">
         Despesas
       </option>
     </select>
   </div>
   <div class="account-card__menu">
     <app-card-info />
-    <app-actions
-      class="account-card__menu__actions"
-      (statement)="openStatementModal()"
-      (abrirModal)="openModal($event)"
-    />
-    <app-modal-statement
-      *ngIf="showStatementModal"
-      [show]="true"
-      (close)="closeStatementModal()"
-    ></app-modal-statement>
+    <app-actions class="account-card__menu__actions" (statement)="openStatementModal()"
+      (abrirModal)="openModal($event)" />
+    <app-modal-statement *ngIf="showStatementModal" [show]="true" (close)="closeStatementModal()"></app-modal-statement>
 
-    <app-modal-transactions
-      *ngIf="showModal"
-      [show]="showModal"
-      [tipo]="modalTipo"
-      [contaId]="conta?._id || ''" (close)="closeModal()"
-      (transacaoSalva)="handleTransactionSaved()" ></app-modal-transactions>
+    <app-modal-transactions *ngIf="showModal" [show]="showModal" [tipo]="modalTipo" [contaId]="conta?._id || ''"
+      (close)="closeModal()" (transacaoSalva)="handleTransactionSaved()"
+      (transacaoSalva)="reloadPage()"></app-modal-transactions>
 
   </div>
 </section>

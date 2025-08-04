@@ -46,6 +46,7 @@
       [contaId]="conta?._id || ''"
       (close)="closeModal()"
       (transacaoSalva)="handleTransactionSaved()"
+      (transacaoSalva)="reloadPage()"
     ></app-modal-transactions>
 
   </div>

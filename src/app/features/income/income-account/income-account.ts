@@ -30,6 +30,9 @@ export class IncomeAccount implements OnInit {
   ngOnInit(): void {
     this.loadConta();
   }
+  reloadPage(): void {
+    window.location.reload();
+  }
 
   loadConta(): void {
     this.contaService.getContaDoUsuario().subscribe({

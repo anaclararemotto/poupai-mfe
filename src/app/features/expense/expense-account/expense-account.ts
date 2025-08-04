@@ -42,6 +42,9 @@ export class ExpenseAccount implements OnInit {
     this.loadConta();
     this.loadTransactions();
   }
+  reloadPage(): void {
+    window.location.reload();
+  }
 
   loadConta(): void {
     this.contaService.getContaDoUsuario().subscribe({
