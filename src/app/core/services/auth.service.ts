@@ -63,9 +63,13 @@ export class AuthService {
   get token(): string | null {
     return this._currentToken.getValue();
   }
-
+  
   get isLoggedIn(): boolean {
     return !!this.token;
+  }
+
+  isAuthenticatedUser(): boolean {
+    return this.isLoggedIn;
   }
 
   login(dados: { email: string; senha: string }): Observable<any> {

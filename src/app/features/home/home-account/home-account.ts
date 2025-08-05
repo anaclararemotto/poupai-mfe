@@ -100,5 +100,6 @@ export class HomeAccount implements OnInit, OnDestroy {
   sair() {
     console.log('HomeAccount: Botão "Sair" clicado!');
     this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }
