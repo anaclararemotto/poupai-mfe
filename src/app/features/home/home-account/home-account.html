@@ -5,7 +5,7 @@
         Olá {{ usuario.nome }}!
       </h2>
       <p class="account-card__content__info__text">Saldo total em conta</p>
-      <p class="account-card__content__info__amount">R$ 0,00</p>
+      <p class="account-card__content__info__amount">R$ {{ saldoFormatado}}</p>
     </div>
     <div class="account-card__content__logout">
       <button class="account-card__content__logout__btn btn">
@@ -14,8 +14,4 @@
       </button>
     </div>
   </div>
-
-  <button class="account-card__btn btn" (click)="adicionarConta()">
-    Adicionar conta<i class="bi bi-plus"></i>
-  </button>
 </section>

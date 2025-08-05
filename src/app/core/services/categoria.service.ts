@@ -12,11 +12,15 @@ export interface Categoria {
   providedIn: 'root',
 })
 export class CategoriaService {
-  private apiUrl = 'http://localhost:4000/categoria'; 
+  private apiUrl = 'http://localhost:4000/categoria';
 
   constructor(private http: HttpClient) {}
 
   listarCategorias(): Observable<Categoria[]> {
-    return this.http.get<Categoria[]>(this.apiUrl);
+    return this.http.get<Categoria[]>(`${this.apiUrl}`);
+  }
+
+  listarCategoriasPorTipo(tipo: 'receita' | 'despesa'): Observable<Categoria[]> {
+    return this.http.get<Categoria[]>(`${this.apiUrl}/tipo/${tipo}`);
   }
 }

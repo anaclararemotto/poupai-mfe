@@ -13,13 +13,13 @@
     &__icon {
       background-color: $red-normal;
       @include flex-center;
-      padding: 10px 13px;
+      padding: 0.625rem 0.8125rem;
       border-radius: 100%;
     }
     &__content {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 0.3125rem;
       &__category,
       &__date,
       &__amount {
@@ -44,21 +44,21 @@
 .despesa {
   background-color: $red-normal;
   @include flex-center;
-  padding: 10px 12px;
+  padding: 0.625rem 0.75rem;
   border-radius: 100%;
 }
 
 .receita {
   background-color: $green-normal; 
   @include flex-center;
-  padding: 10px 12px;
+  padding: 0.625rem 0.75rem;
   border-radius: 100%;
 }
 
 .transferencia {
   background-color: $blue-500;
   @include flex-center;
-  padding: 10px 12px;
+  padding: 0.625rem 0.75rem;
   border-radius: 100%;
 }
 

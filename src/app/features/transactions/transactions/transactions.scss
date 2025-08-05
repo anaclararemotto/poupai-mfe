@@ -4,19 +4,26 @@
   padding: 3.125rem 1.875rem;
   min-height: 100vh;
   font-family: $font-poppins;
+}
 
+.footer {
+  display: none;
 }
 
 @include respond(md) {
   .transactions {
-    padding: 0px 3.125rem;
-    &__button{
-        display: none;
+    padding: 0rem 3.125rem;
+    &__button {
+      display: none;
     }
   }
 }
 @include respond(lg) {
   .transactions {
-    padding: 0px 10.625rem;
+    padding: 0rem 10.625rem;
+  }
+
+  .footer {
+    display: block;
   }
 }

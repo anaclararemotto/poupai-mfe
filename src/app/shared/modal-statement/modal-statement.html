@@ -8,22 +8,11 @@
       <form class="modal-statement__dialog__form">
         <div>
           <label class="form-label">Tipo de transação</label>
-          <select class="form-select">
-            <option disabled>Selecione</option>
-            <option>Receita</option>
-            <option>Despesa</option>
-            <option>Transferência</option>
-          </select>
-        </div>
-        <div>
-          <label class="form-label">Período</label>
-          <select class="form-select">
-            <option disabled>Selecione</option>
-            <option>Última semana</option>
-            <option>Últimos 15 dias</option>
-            <option>Último mês</option>
-            <option>Últimos 6 meses</option>
-            <option>Último ano</option>
+          <select class="form-select" [(ngModel)]="tipoTransacao" name="tipoTransacao" aria-placeholder="Selecione">
+            <option [ngValue]="null" disabled selected>Selecione</option>
+            <option value="Receita">Receita</option>
+            <option value="Despesa">Despesa</option>
+            <option value="Transferência">Transferência</option>
           </select>
         </div>
         <div class="modal-statement__dialog__form__button">
@@ -33,7 +22,7 @@
           >
             Cancelar
           </button>
-          <button class="btn modal-statement__dialog__form__button__confirm">
+          <button (click)="buscarExtrato()"  class="btn modal-statement__dialog__form__button__confirm">
             Buscar
           </button>
         </div>

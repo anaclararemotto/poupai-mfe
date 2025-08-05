@@ -54,12 +54,9 @@
             <label class="form-label">Categoria</label>
             <select class="form-select" name="categoria" ngModel required>
               <option [ngValue]="null" disabled>Selecione uma categoria</option>
-              <option
-                *ngFor="let categoria of categoriasFiltradas"
-                [value]="categoria.nome"
-              >
-                {{ categoria.nome }}
-              </option>
+              <option *ngFor="let categoria of categoriasFiltradas" [value]="categoria._id">
+  {{ categoria.nome }}
+</option>
             </select>
           </div>
           <div class="modal-transactions__dialog__form__button">
@@ -67,6 +64,7 @@
               type="button"
               (click)="onClose()"
               class="btn modal-transactions__dialog__form__button__cancel"
+              [disabled]="isSaving"
             >
               Cancelar
             </button>
@@ -128,12 +126,9 @@
             <label class="form-label">Categoria</label>
             <select class="form-select" name="categoria" ngModel required>
               <option [ngValue]="null" disabled>Selecione uma categoria</option>
-              <option
-                *ngFor="let categoria of categoriasFiltradas"
-                [value]="categoria.nome"
-              >
-                {{ categoria.nome }}
-              </option>
+              <option *ngFor="let categoria of categoriasFiltradas" [value]="categoria._id">
+  {{ categoria.nome }}
+</option>
             </select>
           </div>
           <div class="modal-transactions__dialog__form__button">
@@ -141,6 +136,7 @@
               type="button"
               (click)="onClose()"
               class="btn modal-transactions__dialog__form__button__cancel"
+              [disabled]="isSaving"
             >
               Cancelar
             </button>
@@ -223,6 +219,7 @@
               type="button"
               (click)="onClose()"
               class="btn modal-transactions__dialog__form__button__cancel"
+              [disabled]="isSaving"
             >
               Cancelar
             </button>

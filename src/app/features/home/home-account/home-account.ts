@@ -8,6 +8,7 @@ import {
 } from '../../../core/services/usuario.service';
 import { Subscription, filter } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Conta, ContaService } from '../../../core/services/conta.service';
 
 @Component({
   selector: 'app-home-account',
@@ -18,13 +19,16 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class HomeAccount implements OnInit, OnDestroy {
   usuario: Usuario | null = null;
+  conta: Conta | null = null;
+  saldoTotal: number = 0;
   private tokenSubscription: Subscription | undefined;
   private userSubscription: Subscription | undefined;
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private contaService: ContaService,
   ) {}
 
   ngOnInit(): void {
@@ -38,6 +42,7 @@ export class HomeAccount implements OnInit, OnDestroy {
           'DEBUG HomeAccount: Token no stream. Chamando a API para carregar dados do usuário.'
         );
         this.carregarDadosDoUsuario();
+        this.carregarConta();
       });
 
     this.userSubscription = this.authService.currentUser$.subscribe(
@@ -58,6 +63,19 @@ export class HomeAccount implements OnInit, OnDestroy {
 
     console.groupEnd();
   }
+
+   private carregarConta() {
+    this.contaService.getContaDoUsuario().subscribe({
+      next: (conta) => (this.conta = conta),
+      error: (err) => console.error('Erro ao carregar conta', err),
+    });
+  }
+
+  get saldoFormatado(): string {
+  return this.conta
+    ? this.conta.saldo.toLocaleString(): 'R$ 0,00';
+}
+
 
   private carregarDadosDoUsuario(): void {
     console.group('HomeAccount carregarDadosDoUsuario');
@@ -81,6 +99,8 @@ export class HomeAccount implements OnInit, OnDestroy {
         console.groupEnd();
       },
     });
+
+    
   }
 
   ngOnDestroy(): void {
