@@ -1,10 +1,10 @@
-<app-navbar/>
+<app-navbar />
 <section class="expense">
-  <app-expense-account/>
-  <app-time-filter (filterChange)="onFilterChange($event)"/> 
+  <app-expense-account />
+  <app-time-filter (filterChange)="onFilterChange($event)" />
   <app-card-transactions
     *ngFor="let t of filteredTransactions"
-    [transaction]="t" 
+    [transaction]="t"
     (edit)="onEditTransaction($event)"
     (view)="openViewModal($event)"
     (delete)="onDeleteTransaction($event)"
@@ -17,9 +17,9 @@
     (save)="onSaveEditedTransaction($event)"
   ></app-modal-edit>
   <app-modal-view
-    *ngIf="showViewModal" 
-    [show]="showViewModal" 
-    [selectedTransaction]="selectedTransaction" 
+    *ngIf="showViewModal"
+    [show]="showViewModal"
+    [selectedTransaction]="selectedTransaction"
     (close)="closeViewModal()"
   ></app-modal-view>
   <app-modal-delete
@@ -29,6 +29,6 @@
     (close)="closeDeleteModal()"
     (confirm)="onConfirmDelete()"
   ></app-modal-delete>
-  <app-transactions-button class="expense__button"/>
+  <app-transactions-button class="expense__button" />
 </section>
-<app-footer/>
+<app-footer />

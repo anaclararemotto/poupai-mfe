@@ -21,17 +21,13 @@ export const routes: Routes = [
   {
     path: 'income',
     loadChildren: () =>
-      import('./features/income/income-module').then(
-        (m) => m.IncomeModule
-      ),
+      import('./features/income/income-module').then((m) => m.IncomeModule),
     canActivate: [AuthGuard],
   },
   {
     path: 'expense',
     loadChildren: () =>
-      import('./features/expense/expense-module').then(
-        (m) => m.ExpenseModule
-      ),
+      import('./features/expense/expense-module').then((m) => m.ExpenseModule),
     canActivate: [AuthGuard],
   },
   {

@@ -39,9 +39,9 @@
       align-items: start;
       justify-content: end;
 
-      &__btn{
-        &__text{
-            display: none;
+      &__btn {
+        &__text {
+          display: none;
         }
       }
 
@@ -73,20 +73,20 @@
   }
 }
 
-@include respond(md){
-    .account-card{
-        &__content{
-            &__logout{
-                &__btn{
-                    display: flex;
-                    gap: 0.4rem;
-                    &__text{
-                        display: block;
-                        color: $white;
-                        font-family: $font-poppins;
-                    }
-                }
-            }
+@include respond(md) {
+  .account-card {
+    &__content {
+      &__logout {
+        &__btn {
+          display: flex;
+          gap: 0.4rem;
+          &__text {
+            display: block;
+            color: $white;
+            font-family: $font-poppins;
+          }
         }
+      }
     }
+  }
 }

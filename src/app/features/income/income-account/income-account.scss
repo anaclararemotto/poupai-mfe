@@ -16,7 +16,7 @@
       color: $white;
       border: none;
 
-      &__option{
+      &__option {
         color: $black;
       }
     }
@@ -48,7 +48,7 @@
     &__nav {
       justify-content: center;
 
-      &__return{
+      &__return {
         display: none;
       }
       &__dropdown {
@@ -66,15 +66,14 @@
   }
 }
 
-@include respond(lg){
-    .account-card {
+@include respond(lg) {
+  .account-card {
     &__nav {
       gap: 40%;
       padding: 0.625rem;
       &__dropdown {
         width: 15%;
       }
-    
+    }
   }
-}
 }

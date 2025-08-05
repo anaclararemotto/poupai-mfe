@@ -1,14 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription, filter } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
+import { Conta, ContaService } from '../../../core/services/conta.service';
 import {
   Usuario,
   UsuarioService,
 } from '../../../core/services/usuario.service';
-import { Subscription, filter } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Conta, ContaService } from '../../../core/services/conta.service';
 
 @Component({
   selector: 'app-home-account',
@@ -28,7 +28,7 @@ export class HomeAccount implements OnInit, OnDestroy {
     private router: Router,
     private authService: AuthService,
     private usuarioService: UsuarioService,
-    private contaService: ContaService,
+    private contaService: ContaService
   ) {}
 
   ngOnInit(): void {
@@ -64,7 +64,7 @@ export class HomeAccount implements OnInit, OnDestroy {
     console.groupEnd();
   }
 
-   private carregarConta() {
+  private carregarConta() {
     this.contaService.getContaDoUsuario().subscribe({
       next: (conta) => (this.conta = conta),
       error: (err) => console.error('Erro ao carregar conta', err),
@@ -72,10 +72,8 @@ export class HomeAccount implements OnInit, OnDestroy {
   }
 
   get saldoFormatado(): string {
-  return this.conta
-    ? this.conta.saldo.toLocaleString(): 'R$ 0,00';
-}
-
+    return this.conta ? this.conta.saldo.toLocaleString() : 'R$ 0,00';
+  }
 
   private carregarDadosDoUsuario(): void {
     console.group('HomeAccount carregarDadosDoUsuario');
@@ -99,8 +97,6 @@ export class HomeAccount implements OnInit, OnDestroy {
         console.groupEnd();
       },
     });
-
-    
   }
 
   ngOnDestroy(): void {

@@ -13,7 +13,7 @@ Chart.register(...registerables);
   templateUrl: './home-dashboard.html',
   styleUrls: ['./home-dashboard.scss'],
 })
-export class HomeDashboard implements OnInit{
+export class HomeDashboard implements OnInit {
   public doughnutChartType: 'doughnut' = 'doughnut';
   public doughnutChartOptions: ChartOptions<'doughnut'> = {
     responsive: true,
@@ -34,29 +34,53 @@ export class HomeDashboard implements OnInit{
   public totalReceitaMes: number = 0;
   public totalDespesaMes: number = 0;
   public contaUsuario: Conta | null = null;
- public receitasChartData: ChartData<'doughnut'> = {
-  labels: [],
-  datasets: [
-    {
-      data: [],
-      backgroundColor: ['#198754', '#0d6efd', '#ffc107', '#20c997', '#6610f2'],
-      hoverBackgroundColor: ['#157347', '#0b5ed7', '#d39e00', '#17a2b8', '#5a349b'],
-      borderColor: '#f0f0f0',
-    },
-  ],
-};
+  public receitasChartData: ChartData<'doughnut'> = {
+    labels: [],
+    datasets: [
+      {
+        data: [],
+        backgroundColor: [
+          '#198754',
+          '#0d6efd',
+          '#ffc107',
+          '#20c997',
+          '#6610f2',
+        ],
+        hoverBackgroundColor: [
+          '#157347',
+          '#0b5ed7',
+          '#d39e00',
+          '#17a2b8',
+          '#5a349b',
+        ],
+        borderColor: '#f0f0f0',
+      },
+    ],
+  };
 
-public despesasChartData: ChartData<'doughnut'> = {
-  labels: [],
-  datasets: [
-    {
-      data: [],
-      backgroundColor: ['#dc3545', '#fd7e14', '#6f42c1', '#d63384', '#0dcaf0'],
-      hoverBackgroundColor: ['#c82333', '#e66a0a', '#5a349b', '#bf2a72', '#0aace6'],
-      borderColor: '#f0f0f0',
-    },
-  ],
-};
+  public despesasChartData: ChartData<'doughnut'> = {
+    labels: [],
+    datasets: [
+      {
+        data: [],
+        backgroundColor: [
+          '#dc3545',
+          '#fd7e14',
+          '#6f42c1',
+          '#d63384',
+          '#0dcaf0',
+        ],
+        hoverBackgroundColor: [
+          '#c82333',
+          '#e66a0a',
+          '#5a349b',
+          '#bf2a72',
+          '#0aace6',
+        ],
+        borderColor: '#f0f0f0',
+      },
+    ],
+  };
 
   constructor(
     private transacoesService: TransacoesService,
@@ -64,7 +88,7 @@ public despesasChartData: ChartData<'doughnut'> = {
   ) {}
 
   ngOnInit(): void {
-    this.contaService.getContaDoUsuario().subscribe(conta => {
+    this.contaService.getContaDoUsuario().subscribe((conta) => {
       this.contaUsuario = conta;
       if (this.contaUsuario) {
         this.fetchTotals();
@@ -80,7 +104,7 @@ public despesasChartData: ChartData<'doughnut'> = {
       },
       error: (err) => {
         console.error('Erro ao buscar total de receitas:', err);
-      }
+      },
     });
 
     this.transacoesService.getTotalDespesas().subscribe({
@@ -89,80 +113,77 @@ public despesasChartData: ChartData<'doughnut'> = {
       },
       error: (err) => {
         console.error('Erro ao buscar total de despesas:', err);
-      }
+      },
     });
   }
 
-private fetchCategorizedData(): void {
-  this.transacoesService.getReceitasPorCategoriaMes().subscribe({
-    next: (data) => {
-      if (!data.length) {
-        this.receitasChartData = {
-          labels: ['Sem dados'],
-          datasets: [
-            {
-              data: [1],
-              backgroundColor: ['#d3d3d3'], // cinza claro
-              hoverBackgroundColor: ['#d3d3d3'],
-              borderColor: '#f0f0f0',
-            },
-          ],
-        };
-      } else {
-        const labels = data.map(item => item._id);
-        const values = data.map(item => item.total);
+  private fetchCategorizedData(): void {
+    this.transacoesService.getReceitasPorCategoriaMes().subscribe({
+      next: (data) => {
+        if (!data.length) {
+          this.receitasChartData = {
+            labels: ['Sem dados'],
+            datasets: [
+              {
+                data: [1],
+                backgroundColor: ['#d3d3d3'], // cinza claro
+                hoverBackgroundColor: ['#d3d3d3'],
+                borderColor: '#f0f0f0',
+              },
+            ],
+          };
+        } else {
+          const labels = data.map((item) => item._id);
+          const values = data.map((item) => item.total);
 
-        this.receitasChartData = {
-          labels,
-          datasets: [
-            {
-              ...this.receitasChartData.datasets[0],
-              data: values,
-            },
-          ],
-        };
-      }
-    },
-    error: (err) => {
-      console.error('Erro ao buscar receitas por categoria:', err);
-    }
-  });
+          this.receitasChartData = {
+            labels,
+            datasets: [
+              {
+                ...this.receitasChartData.datasets[0],
+                data: values,
+              },
+            ],
+          };
+        }
+      },
+      error: (err) => {
+        console.error('Erro ao buscar receitas por categoria:', err);
+      },
+    });
 
-  this.transacoesService.getDespesasPorCategoriaMes().subscribe({
-    next: (data) => {
-      if (!data.length) {
-        this.despesasChartData = {
-          labels: ['Sem dados'],
-          datasets: [
-            {
-              data: [1],
-              backgroundColor: ['#d3d3d3'], // cinza claro
-              hoverBackgroundColor: ['#d3d3d3'],
-              borderColor: '#f0f0f0',
-            },
-          ],
-        };
-      } else {
-        const labels = data.map(item => item._id);
-        const values = data.map(item => item.total);
+    this.transacoesService.getDespesasPorCategoriaMes().subscribe({
+      next: (data) => {
+        if (!data.length) {
+          this.despesasChartData = {
+            labels: ['Sem dados'],
+            datasets: [
+              {
+                data: [1],
+                backgroundColor: ['#d3d3d3'], // cinza claro
+                hoverBackgroundColor: ['#d3d3d3'],
+                borderColor: '#f0f0f0',
+              },
+            ],
+          };
+        } else {
+          const labels = data.map((item) => item._id);
+          const values = data.map((item) => item.total);
 
-        this.despesasChartData = {
-          labels,
-          datasets: [
-            {
-              ...this.despesasChartData.datasets[0],
-              data: values,
-            },
-          ],
-        };
-      }
-    },
-    error: (err) => {
-      console.error('Erro ao buscar despesas por categoria:', err);
-    }
-  });
+          this.despesasChartData = {
+            labels,
+            datasets: [
+              {
+                ...this.despesasChartData.datasets[0],
+                data: values,
+              },
+            ],
+          };
+        }
+      },
+      error: (err) => {
+        console.error('Erro ao buscar despesas por categoria:', err);
+      },
+    });
+  }
 }
-
-
-}
-

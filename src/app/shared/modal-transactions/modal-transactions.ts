@@ -6,7 +6,7 @@ import {
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NgxMaskDirective } from 'ngx-mask';
@@ -24,16 +24,16 @@ import {
 @Component({
   selector: 'app-modal-transactions',
   standalone: true,
-  imports: [CommonModule,  FormsModule, NgxMaskDirective],
+  imports: [CommonModule, FormsModule, NgxMaskDirective],
   templateUrl: './modal-transactions.html',
   styleUrls: ['./modal-transactions.scss'],
 })
 export class ModalTransactions implements OnInit, OnChanges {
   @Input() show = false;
-  @Input()   tipo: 'receita' | 'despesa' | 'transferencia' | null = null;
+  @Input() tipo: 'receita' | 'despesa' | 'transferencia' | null = null;
 
   @Input() contaId!: string;
-@Input() bancos: Banco[] = [];
+  @Input() bancos: Banco[] = [];
   @Input() categoriasFiltradas: Categoria[] = [];
   @Output() close = new EventEmitter<void>();
   @Output() transacaoSalva = new EventEmitter<void>();
@@ -44,20 +44,20 @@ export class ModalTransactions implements OnInit, OnChanges {
   isSaving = false;
   message: string | null = null;
   isError = false;
-private formatDateToInput(date: Date): string {
-  const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const day = date.getDate().toString().padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
+  private formatDateToInput(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
 
   constructor(
     private transacoesService: TransacoesService,
     private bancoService: BancoService,
-    private categoriaService: CategoriaService,
-
+    private categoriaService: CategoriaService
   ) {
-this.dataHoje = this.formatDateToInput(new Date());  }
+    this.dataHoje = this.formatDateToInput(new Date());
+  }
 
   ngOnInit(): void {
     this.carregarBancos();
@@ -97,92 +97,87 @@ this.dataHoje = this.formatDateToInput(new Date());  }
     this.close.emit();
   }
 
-
-salvarTransacao(form: NgForm) {
-  if (!this.tipo) {
-    console.error('Tipo da transação não definido');
-    return;
-  }
-
-  if (form.valid) {
-    this.isSaving = true;
-    this.message = null;
-    this.isError = false;
-
-    let payload: NovaTransacao;
-    const commonPayload = {
-      valor: this.parseValor(form.value.valor),
-      data: new Date().toISOString(),
-      conta: this.contaId,
-      tipo: this.tipo,
-    };
-
-    switch (this.tipo) {
-      case 'receita':
-        payload = {
-          ...commonPayload,
-          categoria: form.value.categoria,
-          bancoDestino: form.value.bancoDestino,
-        };
-        break;
-
-      case 'despesa':
-        payload = {
-          ...commonPayload,
-          categoria: form.value.categoria,
-          bancoOrigem: form.value.bancoOrigem,
-        };
-        break;
-
-      case 'transferencia':
-        payload = {
-          ...commonPayload,
-          bancoOrigem: form.value.bancoOrigem,
-          bancoDestino: form.value.bancoDestino,
-        };
-        break;
-
-      default:
-        console.error('Tipo de transação inválido');
-        this.isSaving = false;
-        return;
+  salvarTransacao(form: NgForm) {
+    if (!this.tipo) {
+      console.error('Tipo da transação não definido');
+      return;
     }
 
-    console.log('Payload enviado:', payload);
+    if (form.valid) {
+      this.isSaving = true;
+      this.message = null;
+      this.isError = false;
 
-    this.transacoesService.criarTransacao(payload)
-      .pipe(
-        finalize(() => {
+      let payload: NovaTransacao;
+      const commonPayload = {
+        valor: this.parseValor(form.value.valor),
+        data: new Date().toISOString(),
+        conta: this.contaId,
+        tipo: this.tipo,
+      };
+
+      switch (this.tipo) {
+        case 'receita':
+          payload = {
+            ...commonPayload,
+            categoria: form.value.categoria,
+            bancoDestino: form.value.bancoDestino,
+          };
+          break;
+
+        case 'despesa':
+          payload = {
+            ...commonPayload,
+            categoria: form.value.categoria,
+            bancoOrigem: form.value.bancoOrigem,
+          };
+          break;
+
+        case 'transferencia':
+          payload = {
+            ...commonPayload,
+            bancoOrigem: form.value.bancoOrigem,
+            bancoDestino: form.value.bancoDestino,
+          };
+          break;
+
+        default:
+          console.error('Tipo de transação inválido');
           this.isSaving = false;
-        })
-      )
-      .subscribe({
-        next: () => {
-          this.message = 'Transação criada com sucesso!';
-          this.isError = false;
-          form.resetForm();
-          this.transacaoSalva.emit();
-          setTimeout(() => this.onClose(), 2000);
-        },
-        error: (err) => {
-          this.message = 'Erro ao criar transação. Por favor, tente novamente.';
-          this.isError = true;
-          console.error('Erro ao criar transação', err);
-        },
-      });
+          return;
+      }
+
+      console.log('Payload enviado:', payload);
+
+      this.transacoesService
+        .criarTransacao(payload)
+        .pipe(
+          finalize(() => {
+            this.isSaving = false;
+          })
+        )
+        .subscribe({
+          next: () => {
+            this.message = 'Transação criada com sucesso!';
+            this.isError = false;
+            form.resetForm();
+            this.transacaoSalva.emit();
+            setTimeout(() => this.onClose(), 2000);
+          },
+          error: (err) => {
+            this.message =
+              'Erro ao criar transação. Por favor, tente novamente.';
+            this.isError = true;
+            console.error('Erro ao criar transação', err);
+          },
+        });
+    }
   }
-}
-
-
-
 
   private parseValor(valorComMascara: string): number {
     if (!valorComMascara) return 0;
     return Number(
-      valorComMascara
-        .replace('R$ ', '')
-        .replace(/\./g, '')
-        .replace(',', '.')
+      valorComMascara.replace('R$ ', '').replace(/\./g, '').replace(',', '.')
     );
   }
 }

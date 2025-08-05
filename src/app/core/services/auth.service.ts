@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap, catchError, BehaviorSubject, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { Usuario } from './usuario.service';
 @Injectable({
   providedIn: 'root',
@@ -63,7 +63,7 @@ export class AuthService {
   get token(): string | null {
     return this._currentToken.getValue();
   }
-  
+
   get isLoggedIn(): boolean {
     return !!this.token;
   }
@@ -96,14 +96,12 @@ export class AuthService {
       );
   }
 
-logout(): void {
-  console.log('DEBUG AuthService: Logout iniciado no MFE');
-  localStorage.removeItem('token');
-  this._currentToken.next(null);
-  this._currentUser.next(null);
+  logout(): void {
+    console.log('DEBUG AuthService: Logout iniciado no MFE');
+    localStorage.removeItem('token');
+    this._currentToken.next(null);
+    this._currentUser.next(null);
 
-  window.location.href = 'http://localhost:4200/login';
-}
-
-
+    window.location.href = 'http://localhost:4200/login';
+  }
 }

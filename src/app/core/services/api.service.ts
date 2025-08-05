@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -17,6 +17,6 @@ export class ApiService {
   }
 
   getCategories() {
-  return this.http.get<any[]>('/categorias');
-}
+    return this.http.get<any[]>('/categorias');
+  }
 }

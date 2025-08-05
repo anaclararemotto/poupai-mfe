@@ -1,48 +1,48 @@
 @use "../../../styles/base/index" as *;
 
-.actions{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 0.625rem;
-    &__action{
-        @include flex-center;
-        flex-direction: column;
-        gap: 0.3125rem;
-        
-        &__btn{
-            background-color: $gray-300;
-            border-radius: 100%;
-            padding: 0.625rem 1rem;
-        }
+.actions {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.625rem;
+  &__action {
+    @include flex-center;
+    flex-direction: column;
+    gap: 0.3125rem;
 
-      &__btn:hover {
-        background-color: $gray-200;
-      }
-
-      &__btn:active {
-        border: none;
-        outline: none;
-        background-color: $gray-400;
-      }
-      
-      &__btn:focus {
-        border: none;
-      }
-
-        &__text{
-            font-family: $font-poppins;
-        }
+    &__btn {
+      background-color: $gray-300;
+      border-radius: 100%;
+      padding: 0.625rem 1rem;
     }
+
+    &__btn:hover {
+      background-color: $gray-200;
+    }
+
+    &__btn:active {
+      border: none;
+      outline: none;
+      background-color: $gray-400;
+    }
+
+    &__btn:focus {
+      border: none;
+    }
+
+    &__text {
+      font-family: $font-poppins;
+    }
+  }
 }
 
-@include respond(md){
-    .actions{
-        padding: 0rem;
-       &__action{
-        &__text{
-            color: $white;
-        }
-       }
+@include respond(md) {
+  .actions {
+    padding: 0rem;
+    &__action {
+      &__text {
+        color: $white;
+      }
     }
+  }
 }

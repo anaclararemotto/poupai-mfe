@@ -1,11 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Conta, ContaService } from '../../../core/services/conta.service';
 import { Actions } from '../../../shared/actions/actions';
 import { CardInfo } from '../../../shared/card-info/card-info';
 import { ModalStatement } from '../../../shared/modal-statement/modal-statement';
 import { ModalTransactions } from '../../../shared/modal-transactions/modal-transactions';
-import { Conta, ContaService } from '../../../core/services/conta.service';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-income-account',
@@ -23,9 +23,7 @@ export class IncomeAccount implements OnInit {
 
   conta: Conta | null = null;
 
-  constructor(
-    private contaService: ContaService
-  ) {}
+  constructor(private contaService: ContaService) {}
 
   ngOnInit(): void {
     this.loadConta();
@@ -47,7 +45,10 @@ export class IncomeAccount implements OnInit {
   }
 
   openModal(tipo: 'receita' | 'despesa' | 'transferencia') {
-    console.log('Tentando abrir modal em IncomeAccount. Estado da conta:', this.conta);
+    console.log(
+      'Tentando abrir modal em IncomeAccount. Estado da conta:',
+      this.conta
+    );
     if (this.conta && this.conta._id) {
       console.log('Conta carregada. Abrindo o modal...');
       this.modalTipo = tipo;

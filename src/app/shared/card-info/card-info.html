@@ -1,21 +1,24 @@
 <section class="info">
-    <div class="info__card">
+  <div class="info__card">
     <div class="info__card__content" routerLink="/income">
-        <p class="info__card__content__text">Receitas</p>
-        <p class="info__card__content__income">{{ totalReceitas | currency:'BRL':'symbol':'1.2-2'}}</p>
+      <p class="info__card__content__text">Receitas</p>
+      <p class="info__card__content__income">
+        {{ totalReceitas | currency:'BRL':'symbol':'1.2-2'}}
+      </p>
     </div>
     <div class="info__card__income">
-        <i class="bi bi-arrow-up text-light"></i>
+      <i class="bi bi-arrow-up text-light"></i>
     </div>
-</div>
-<div class="info__card">
+  </div>
+  <div class="info__card">
     <div class="info__card__content" routerLink="/expense">
-        <p class="info__card__content__text">Despesas</p>
-        <p class="info__card__content__expenses">{{ totalDespesas | currency:'BRL':'symbol':'1.2-2'}}</p>
+      <p class="info__card__content__text">Despesas</p>
+      <p class="info__card__content__expenses">
+        {{ totalDespesas | currency:'BRL':'symbol':'1.2-2'}}
+      </p>
     </div>
     <div class="info__card__expenses">
-        <i class="bi bi-arrow-down text-light"></i>
+      <i class="bi bi-arrow-down text-light"></i>
     </div>
-</div>
+  </div>
 </section>
-

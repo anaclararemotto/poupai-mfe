@@ -31,13 +31,12 @@ export interface Transacao {
 export interface NovaTransacao {
   tipo: 'receita' | 'despesa' | 'transferencia';
   valor: number;
-  data: string ;
+  data: string;
   categoria?: string;
   bancoOrigem?: string;
   bancoDestino?: string;
   conta: string;
 }
-
 
 @Injectable({
   providedIn: 'root',
@@ -51,7 +50,7 @@ export class TransacoesService {
     return this.http.get<Transacao[]>(`${this.apiUrl}/transacoes`);
   }
 
-  criarTransacao(payload: any){
+  criarTransacao(payload: any) {
     return this.http.post(`${this.apiUrl}/transacoes`, payload);
   }
 
@@ -77,12 +76,11 @@ export class TransacoesService {
     return this.http.get<any>(`${this.apiUrl}/total-despesas`);
   }
 
- getReceitasPorCategoriaMes(): Observable<CategorizedData[]> {
+  getReceitasPorCategoriaMes(): Observable<CategorizedData[]> {
     return this.http.get<CategorizedData[]>(`${this.apiUrl}/receitas-mes`);
   }
 
   getDespesasPorCategoriaMes(): Observable<CategorizedData[]> {
     return this.http.get<CategorizedData[]>(`${this.apiUrl}/despesas-mes`);
   }
-
 }

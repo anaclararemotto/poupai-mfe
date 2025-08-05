@@ -18,7 +18,7 @@
     <p>{{ getBancoDisplay(transaction) }}</p>
   </div>
 
-  <div >
+  <div>
     <button class="btn" (click)="onEdit()">
       <i class="bi bi-pencil-square"></i>
     </button>
@@ -28,5 +28,55 @@
     <button class="btn" (click)="onDelete()">
       <i class="bi bi-trash"></i>
     </button>
+    <div class="actions__action">
+      <div class="actions__action">
+        <button class="actions__action__btn btn" (click)="fileInput?.click()">
+          <i class="bi bi-upload"></i>
+        </button>
+        <input
+          #fileInput
+          type="file"
+          (change)="onFileSelected($event)"
+          accept="image/*"
+          hidden
+        />
+        <img
+          *ngIf="transaction.imgPath"
+          [src]="getImageUrl(transaction.imgPath)"
+          alt="Imagem da transação"
+          class="preview-img"
+          (click)="openModal(transaction.imgPath)"
+          style="cursor: pointer"
+        />
+
+        <div
+          class="modal"
+          *ngIf="modalOpen"
+          (click)="closeModal()"
+          style="
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+          "
+        >
+          <img
+            [src]="modalImgSrc"
+            alt="Imagem ampliada"
+            style="
+              max-width: 90vw;
+              max-height: 90vh;
+              box-shadow: 0 0 20px white;
+            "
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,11 +1,12 @@
 <section class="filter">
   <div class="filter__carousel">
     <button
-  *ngFor="let label of options; let i = index"
-  class="filter__carousel__tag"
-  [class.is-active]="i === selectedIndex"
-  (click)="selectOption(i)">
-  {{ label }}
-</button>
+      *ngFor="let label of options; let i = index"
+      class="filter__carousel__tag"
+      [class.is-active]="i === selectedIndex"
+      (click)="selectOption(i)"
+    >
+      {{ label }}
+    </button>
   </div>
 </section>

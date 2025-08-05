@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   selector: 'app-modal-statement',
   imports: [CommonModule, FormsModule],
   templateUrl: './modal-statement.html',
-  styleUrl: './modal-statement.scss'
+  styleUrl: './modal-statement.scss',
 })
 export class ModalStatement {
   @Input() show = false;
@@ -15,7 +15,7 @@ export class ModalStatement {
 
   tipoTransacao: string | null = null;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   onClose() {
     this.close.emit();
@@ -43,5 +43,4 @@ export class ModalStatement {
     this.onClose();
     this.router.navigate([rotaDestino], { queryParams: queryParams });
   }
-
 }

@@ -27,34 +27,34 @@
       align-items: center;
     }
 
-    &__body{
-        text-align: center;
+    &__body {
+      text-align: center;
     }
 
     &__button {
-        display: flex;
-        gap: 0.5rem;
+      display: flex;
+      gap: 0.5rem;
 
-        &__cancel {
-          background-color: $red-normal;
-          color: $white;
-          width: 100%;
-          padding: 0.625rem 0.75rem;
+      &__cancel {
+        background-color: $red-normal;
+        color: $white;
+        width: 100%;
+        padding: 0.625rem 0.75rem;
 
-          &:hover {
-            background-color: $red-light;
-          }
-        }
-        &__confirm {
-          background-color: $blue-500;
-          color: $white;
-          width: 100%;
-          padding: 0.625rem 0.75rem;
-
-          &:hover {
-            background-color: $purple-500;
-          }
+        &:hover {
+          background-color: $red-light;
         }
       }
+      &__confirm {
+        background-color: $blue-500;
+        color: $white;
+        width: 100%;
+        padding: 0.625rem 0.75rem;
+
+        &:hover {
+          background-color: $purple-500;
+        }
+      }
+    }
   }
 }

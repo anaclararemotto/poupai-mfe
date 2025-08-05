@@ -1,4 +1,3 @@
-
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ApiService } from '../../../core/services/api.service';
@@ -9,13 +8,13 @@ import {
 } from '../../../core/services/transacoes.service';
 import { CardTransactions } from '../../../shared/card-transactions/card-transactions';
 import { Footer } from '../../../shared/footer/footer';
+import { ModalDelete } from '../../../shared/modal-delete/modal-delete';
+import { ModalEdit } from '../../../shared/modal-edit/modal-edit';
+import { ModalView } from '../../../shared/modal-view/modal-view';
 import { Navbar } from '../../../shared/navbar/navbar';
 import { TimeFilter } from '../../../shared/time-filter/time-filter';
 import { TransactionsButton } from '../../../shared/transactions-button/transactions-button';
 import { ExpenseAccount } from '../expense-account/expense-account';
-import { ModalDelete } from "../../../shared/modal-delete/modal-delete";
-import { ModalEdit } from "../../../shared/modal-edit/modal-edit";
-import { ModalView } from "../../../shared/modal-view/modal-view";
 
 @Component({
   selector: 'app-expense',
@@ -29,14 +28,14 @@ import { ModalView } from "../../../shared/modal-view/modal-view";
     CommonModule,
     ModalDelete,
     ModalEdit,
-    ModalView
-],
+    ModalView,
+  ],
   templateUrl: './expense.html',
   styleUrl: './expense.scss',
 })
 export class Expense {
   api = inject(ApiService);
-  selectedTransaction: Transacao | null = null; 
+  selectedTransaction: Transacao | null = null;
   showEditModal = false;
   showViewModal = false;
   showDeleteModal = false;
@@ -70,7 +69,7 @@ export class Expense {
           return dataB.getTime() - dataA.getTime();
         });
 
-        this.applyFilter(2); 
+        this.applyFilter(2);
       },
       error: (err) => console.error('Erro ao carregar transações', err),
     });
@@ -85,43 +84,31 @@ export class Expense {
     let parseDate: Date;
 
     switch (index) {
-      case 0: 
+      case 0:
         parseDate = new Date(
           today.getFullYear(),
           today.getMonth(),
           today.getDate() - 7
         );
         break;
-      case 1: 
+      case 1:
         parseDate = new Date(
           today.getFullYear(),
           today.getMonth(),
           today.getDate() - 15
         );
         break;
-      case 2: 
-        parseDate = new Date(
-          today.getFullYear(),
-          today.getMonth() - 1,
-          1 
-        );
+      case 2:
+        parseDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
         break;
-      case 3: 
-        parseDate = new Date(
-          today.getFullYear(),
-          today.getMonth() - 3,
-          1 
-        );
+      case 3:
+        parseDate = new Date(today.getFullYear(), today.getMonth() - 3, 1);
         break;
-      case 4: 
-        parseDate = new Date(
-          today.getFullYear(),
-          today.getMonth() - 6,
-          1 
-        );
+      case 4:
+        parseDate = new Date(today.getFullYear(), today.getMonth() - 6, 1);
         break;
-      case 5: 
-        parseDate = new Date(0); 
+      case 5:
+        parseDate = new Date(0);
         break;
       default:
         parseDate = new Date(0);
@@ -131,7 +118,7 @@ export class Expense {
       const transactionDate = new Date(t.data);
       const normalizedTransactionDate = this.normalizeDate(transactionDate);
       const normalizedParseDate = this.normalizeDate(parseDate);
-      
+
       return normalizedTransactionDate >= normalizedParseDate;
     });
   }
@@ -145,17 +132,19 @@ export class Expense {
 
   onConfirmDelete() {
     if (this.selectedTransaction && this.selectedTransaction._id) {
-      this.transacaoService.excluirTransacao(this.selectedTransaction._id).subscribe({
-        next: () => {
-          console.log('Transação excluída com sucesso!');
-          this.closeDeleteModal();
-          this.loadTransactions();
-        },
-        error: (err) => {
-          console.error('Erro ao excluir transação', err);
-          this.closeDeleteModal();
-        },
-      });
+      this.transacaoService
+        .excluirTransacao(this.selectedTransaction._id)
+        .subscribe({
+          next: () => {
+            console.log('Transação excluída com sucesso!');
+            this.closeDeleteModal();
+            this.loadTransactions();
+          },
+          error: (err) => {
+            console.error('Erro ao excluir transação', err);
+            this.closeDeleteModal();
+          },
+        });
     } else {
       console.error('Nenhuma transação selecionada ou ID ausente.');
     }
@@ -166,27 +155,31 @@ export class Expense {
     this.selectedTransaction = null;
   }
 
-  onEditTransaction(transaction: Transacao) { 
+  onEditTransaction(transaction: Transacao) {
     this.selectedTransaction = transaction;
     this.showEditModal = true;
     this.showViewModal = false;
     this.showDeleteModal = false;
   }
 
-  onSaveEditedTransaction(updatedTransaction: Partial<NovaTransacao> & { _id: string }) {
+  onSaveEditedTransaction(
+    updatedTransaction: Partial<NovaTransacao> & { _id: string }
+  ) {
     if (updatedTransaction._id) {
       const { _id, ...transactionDataToSend } = updatedTransaction;
-      this.transacaoService.editarTransacao(_id, transactionDataToSend).subscribe({
-        next: () => {
-          console.log('Transação editada com sucesso!');
-          this.closeEditModal();
-          this.loadTransactions();
-        },
-        error: (err) => {
-          console.error('Erro ao salvar edição da transação', err);
-          this.closeEditModal();
-        },
-      });
+      this.transacaoService
+        .editarTransacao(_id, transactionDataToSend)
+        .subscribe({
+          next: () => {
+            console.log('Transação editada com sucesso!');
+            this.closeEditModal();
+            this.loadTransactions();
+          },
+          error: (err) => {
+            console.error('Erro ao salvar edição da transação', err);
+            this.closeEditModal();
+          },
+        });
     }
   }
 
@@ -195,7 +188,7 @@ export class Expense {
     this.selectedTransaction = null;
   }
 
-  openViewModal(transaction: Transacao) { 
+  openViewModal(transaction: Transacao) {
     console.log('Abrindo modal View com transaction:', transaction);
     this.selectedTransaction = transaction;
     this.showViewModal = true;
