@@ -96,13 +96,14 @@ export class AuthService {
       );
   }
 
-  logout(): void {
-    console.log(
-      'DEBUG AuthService: Realizando logout. Limpando todo o estado...'
-    );
-    localStorage.removeItem('token');
-    this._currentToken.next(null);
-    this._currentUser.next(null);
-    this.router.navigate(['/login']);
-  }
+logout(): void {
+  console.log('DEBUG AuthService: Logout iniciado no MFE');
+  localStorage.removeItem('token');
+  this._currentToken.next(null);
+  this._currentUser.next(null);
+
+  window.location.href = 'http://localhost:4200/login';
+}
+
+
 }

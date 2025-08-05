@@ -3,11 +3,12 @@ import { AuthGuard } from './auth-guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
+
   {
     path: 'home',
     loadChildren: () =>
       import('./features/home/home-module').then((m) => m.HomeModule),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'transactions',
@@ -15,6 +16,7 @@ export const routes: Routes = [
       import('./features/transactions/transactions-module').then(
         (m) => m.TransactionsModule
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'income',
@@ -22,6 +24,7 @@ export const routes: Routes = [
       import('./features/income/income-module').then(
         (m) => m.IncomeModule
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'expense',
@@ -29,11 +32,14 @@ export const routes: Routes = [
       import('./features/expense/expense-module').then(
         (m) => m.ExpenseModule
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'dashboard',
     loadChildren: () =>
       import('./features/home/home-module').then((m) => m.HomeModule),
+    canActivate: [AuthGuard],
   },
+
   { path: '**', redirectTo: '/home' },
 ];
