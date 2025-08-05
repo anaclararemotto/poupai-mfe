@@ -26,7 +26,6 @@ import {
   NovaTransacao,
   Transacao,
 } from '../../core/services/transacoes.service';
-import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-modal-edit',
@@ -42,7 +41,7 @@ export class ModalEdit implements OnInit, OnChanges {
   @Output() save = new EventEmitter<Partial<NovaTransacao> & { _id: string }>();
 
   editForm!: FormGroup;
-  categorias: Categoria[] = []; 
+  categorias: Categoria[] = [];
   bancos: Banco[] = [];
 
   private fb = inject(FormBuilder);
@@ -50,13 +49,16 @@ export class ModalEdit implements OnInit, OnChanges {
   private bancoService = inject(BancoService);
 
   private isFormInitialized: boolean = false;
-  private dataLoaded: boolean = false; 
+  private dataLoaded: boolean = false;
 
   ngOnInit(): void {
     this.editForm = this.fb.group({
       _id: [''],
       tipo: ['', Validators.required],
-      valor: ['', [Validators.required, Validators.min(0.01), Validators.max(5000)]],
+      valor: [
+        '',
+        [Validators.required, Validators.min(0.01), Validators.max(5000)],
+      ],
       data: ['', Validators.required],
       categoria: [''],
       bancoOrigem: [''],
@@ -74,7 +76,7 @@ export class ModalEdit implements OnInit, OnChanges {
           this.patchFormWithTransaction(this.transaction);
         }
       },
-      error: (err) => console.error('Erro ao carregar bancos', err)
+      error: (err) => console.error('Erro ao carregar bancos', err),
     });
 
     this.isFormInitialized = true;
@@ -83,69 +85,115 @@ export class ModalEdit implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['transaction'] && this.transaction && this.isFormInitialized) {
-      console.log('ModalEdit: Transação recebida em ngOnChanges:', this.transaction);
+      console.log(
+        'ModalEdit: Transação recebida em ngOnChanges:',
+        this.transaction
+      );
 
-      if (this.dataLoaded) { 
-         this.patchFormWithTransaction(this.transaction);
+      if (this.dataLoaded) {
+        this.patchFormWithTransaction(this.transaction);
       } else {
-         console.warn('ModalEdit: Transação recebida antes dos dados base. Patch será feito após o carregamento dos bancos.');
+        console.warn(
+          'ModalEdit: Transação recebida antes dos dados base. Patch será feito após o carregamento dos bancos.'
+        );
       }
     }
   }
 
   private patchFormWithTransaction(transaction: Transacao): void {
     console.log('ModalEdit: Patching form with transaction data.');
-    console.log('ModalEdit: Tipo da transação recebida (original):', transaction.tipo);
+    console.log(
+      'ModalEdit: Tipo da transação recebida (original):',
+      transaction.tipo
+    );
 
-    const transactionType = (typeof transaction.tipo === 'string' && transaction.tipo !== null && transaction.tipo !== undefined)
-                            ? transaction.tipo.toLowerCase().trim()
-                            : ''; 
+    const transactionType =
+      typeof transaction.tipo === 'string' &&
+      transaction.tipo !== null &&
+      transaction.tipo !== undefined
+        ? transaction.tipo.toLowerCase().trim()
+        : '';
 
     if (transactionType === 'receita' || transactionType === 'despesa') {
       this.categoriaService.listarCategoriasPorTipo(transactionType).subscribe({
         next: (data) => {
           this.categorias = data;
-          console.log(`ModalEdit: Categorias filtradas por tipo (${transactionType}):`, this.categorias);
+          console.log(
+            `ModalEdit: Categorias filtradas por tipo (${transactionType}):`,
+            this.categorias
+          );
           this.performFormPatch(transaction, transactionType);
         },
-        error: (err) => console.error(`Erro ao carregar categorias para o tipo ${transactionType}`, err)
+        error: (err) =>
+          console.error(
+            `Erro ao carregar categorias para o tipo ${transactionType}`,
+            err
+          ),
       });
     } else {
-      this.categorias = []; 
+      this.categorias = [];
       this.performFormPatch(transaction, transactionType);
     }
   }
 
-  private performFormPatch(transaction: Transacao, transactionType: string): void {
-    const categoriaValue = transaction.categoria instanceof Object && transaction.categoria !== null
-                           ? transaction.categoria._id.toString() 
-                           : (transaction.categoria as string || null);
-    const bancoOrigemValue = transaction.bancoOrigem instanceof Object && transaction.bancoOrigem !== null
-                             ? transaction.bancoOrigem._id.toString() 
-                             : (transaction.bancoOrigem as string || null);
-    const bancoDestinoValue = transaction.bancoDestino instanceof Object && transaction.bancoDestino !== null
-                              ? transaction.bancoDestino._id.toString() 
-                              : (transaction.bancoDestino as string || null);
+  private performFormPatch(
+    transaction: Transacao,
+    transactionType: string
+  ): void {
+    const categoriaValue =
+      transaction.categoria instanceof Object && transaction.categoria !== null
+        ? transaction.categoria._id.toString()
+        : (transaction.categoria as string) || null;
+    const bancoOrigemValue =
+      transaction.bancoOrigem instanceof Object &&
+      transaction.bancoOrigem !== null
+        ? transaction.bancoOrigem._id.toString()
+        : (transaction.bancoOrigem as string) || null;
+    const bancoDestinoValue =
+      transaction.bancoDestino instanceof Object &&
+      transaction.bancoDestino !== null
+        ? transaction.bancoDestino._id.toString()
+        : (transaction.bancoDestino as string) || null;
 
     console.log('ModalEdit: Valor da categoria para patch:', categoriaValue);
-    console.log('ModalEdit: Valor do bancoOrigem para patch:', bancoOrigemValue);
-    console.log('ModalEdit: Valor do bancoDestino para patch:', bancoDestinoValue);
+    console.log(
+      'ModalEdit: Valor do bancoOrigem para patch:',
+      bancoOrigemValue
+    );
+    console.log(
+      'ModalEdit: Valor do bancoDestino para patch:',
+      bancoDestinoValue
+    );
 
     this.editForm.patchValue({
       _id: transaction._id,
       tipo: transactionType,
       valor: transaction.valor,
-      data: transaction.data ? new Date(transaction.data).toISOString().split('T')[0] : '',
+      data: transaction.data
+        ? new Date(transaction.data).toISOString().split('T')[0]
+        : '',
       categoria: categoriaValue,
       bancoOrigem: bancoOrigemValue,
       bancoDestino: bancoDestinoValue,
-      conta: transaction.conta
+      conta: transaction.conta,
     });
 
-    console.log('ModalEdit: Tipo após patchValue (limpo):', this.editForm.get('tipo')?.value);
-    console.log('ModalEdit: Categoria após patchValue:', this.editForm.get('categoria')?.value);
-    console.log('ModalEdit: Banco Origem após patchValue:', this.editForm.get('bancoOrigem')?.value);
-    console.log('ModalEdit: Banco Destino após patchValue:', this.editForm.get('bancoDestino')?.value);
+    console.log(
+      'ModalEdit: Tipo após patchValue (limpo):',
+      this.editForm.get('tipo')?.value
+    );
+    console.log(
+      'ModalEdit: Categoria após patchValue:',
+      this.editForm.get('categoria')?.value
+    );
+    console.log(
+      'ModalEdit: Banco Origem após patchValue:',
+      this.editForm.get('bancoOrigem')?.value
+    );
+    console.log(
+      'ModalEdit: Banco Destino após patchValue:',
+      this.editForm.get('bancoDestino')?.value
+    );
 
     this.updateFormFieldsVisibility(transactionType);
   }
@@ -157,10 +205,17 @@ export class ModalEdit implements OnInit, OnChanges {
       this.categoriaService.listarCategoriasPorTipo(tipo).subscribe({
         next: (data) => {
           this.categorias = data;
-          console.log(`ModalEdit: Categorias recarregadas para o tipo (${tipo}):`, this.categorias);
-          this.updateFormFieldsVisibility(tipo); 
+          console.log(
+            `ModalEdit: Categorias recarregadas para o tipo (${tipo}):`,
+            this.categorias
+          );
+          this.updateFormFieldsVisibility(tipo);
         },
-        error: (err) => console.error(`Erro ao recarregar categorias para o tipo ${tipo}`, err)
+        error: (err) =>
+          console.error(
+            `Erro ao recarregar categorias para o tipo ${tipo}`,
+            err
+          ),
       });
     } else {
       this.categorias = [];
@@ -176,9 +231,6 @@ export class ModalEdit implements OnInit, OnChanges {
     categoriaControl?.clearValidators();
     bancoOrigemControl?.clearValidators();
     bancoDestinoControl?.clearValidators();
-    categoriaControl?.setValue(null); 
-    bancoOrigemControl?.setValue(null);
-    bancoDestinoControl?.setValue(null);
 
     if (tipo === 'receita') {
       bancoDestinoControl?.setValidators(Validators.required);
@@ -206,12 +258,14 @@ export class ModalEdit implements OnInit, OnChanges {
         categoria: formValue.categoria || undefined,
         bancoOrigem: formValue.bancoOrigem || undefined,
         bancoDestino: formValue.bancoDestino || undefined,
-        conta: this.transaction.conta
+        conta: this.transaction.conta,
       };
       this.save.emit(updatedTransaction);
     } else {
       this.editForm.markAllAsTouched();
-      console.error('Formulário inválido ou transação original não disponível!');
+      console.error(
+        'Formulário inválido ou transação original não disponível!'
+      );
     }
   }
 
