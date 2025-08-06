@@ -1,0 +1,32 @@
+<div class="modal modal-statement" *ngIf="show">
+  <div class="modal-statement__dialog" role="document">
+    <div class="modal-statement__dialog__header">
+      <h5 class="modal-statement__dialog__header__title">Extrato</h5>
+      <button type="button" class="btn-close" (click)="onClose()"></button>
+    </div>
+    <div>
+      <form class="modal-statement__dialog__form">
+        <div>
+          <label class="form-label">Tipo de transação</label>
+          <select class="form-select" [(ngModel)]="tipoTransacao" name="tipoTransacao" aria-placeholder="Selecione">
+            <option [ngValue]="null" disabled selected>Selecione</option>
+            <option value="Receita">Receita</option>
+            <option value="Despesa">Despesa</option>
+            <option value="Transferência">Transferência</option>
+          </select>
+        </div>
+        <div class="modal-statement__dialog__form__button">
+          <button
+            (click)="onClose()"
+            class="btn modal-statement__dialog__form__button__cancel"
+          >
+            Cancelar
+          </button>
+          <button (click)="buscarExtrato()"  class="btn modal-statement__dialog__form__button__confirm">
+            Buscar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

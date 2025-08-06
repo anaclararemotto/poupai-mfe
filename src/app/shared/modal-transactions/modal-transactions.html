@@ -1,0 +1,239 @@
+<div class="modal modal-transactions" *ngIf="show">
+  <div class="modal-transactions__dialog" role="document">
+    <div class="modal-transactions__dialog__header">
+      <h5 class="modal-transactions__dialog__header__title">
+        Nova {{ tipo | titlecase }}
+      </h5>
+      <button type="button" class="btn-close" (click)="onClose()"></button>
+    </div>
+    <ng-container [ngSwitch]="tipo">
+      <div *ngSwitchCase="'receita'">
+        <form
+          #receitaForm="ngForm"
+          (ngSubmit)="salvarTransacao(receitaForm)"
+          class="modal-transactions__dialog__form"
+          novalidate
+        >
+          <div class="modal-transactions__dialog__form__input-inline">
+            <div class="modal-transactions__dialog__form__input-inline__input">
+              <label class="form-label">Valor</label>
+              <input
+                type="text"
+                class="form-control"
+                name="valor"
+                ngModel
+                required
+                mask="separator.2"
+                thousandSeparator="."
+                decimalMarker=","
+                prefix="R$ "
+                [dropSpecialCharacters]="false"
+              />
+            </div>
+            <div class="modal-transactions__dialog__form__input-inline__input">
+              <label class="form-label">Data</label>
+              <input
+                type="date"
+                class="form-control"
+                name="data"
+                [ngModel]="dataHoje"
+                required
+              />
+            </div>
+          </div>
+          <div>
+            <label class="form-label">Para</label>
+            <select class="form-select" name="bancoDestino" ngModel required>
+              <option [ngValue]="null" disabled>Selecione um banco</option>
+              <option *ngFor="let banco of bancos" [value]="banco._id">
+                {{ banco.nome }}
+              </option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Categoria</label>
+            <select class="form-select" name="categoria" ngModel required>
+              <option [ngValue]="null" disabled>Selecione uma categoria</option>
+              <option *ngFor="let categoria of categoriasFiltradas" [value]="categoria._id">
+  {{ categoria.nome }}
+</option>
+            </select>
+          </div>
+          <div class="modal-transactions__dialog__form__button">
+            <button
+              type="button"
+              (click)="onClose()"
+              class="btn modal-transactions__dialog__form__button__cancel"
+              [disabled]="isSaving"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="btn modal-transactions__dialog__form__button__confirm"
+              [disabled]="receitaForm.invalid"
+            >
+              Salvar
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div *ngSwitchCase="'despesa'">
+        <form
+          #despesaForm="ngForm"
+          (ngSubmit)="salvarTransacao(despesaForm)"
+          class="modal-transactions__dialog__form"
+          novalidate
+        >
+          <div class="modal-transactions__dialog__form__input-inline">
+            <div class="modal-transactions__dialog__form__input-inline__input">
+              <label class="form-label">Valor</label>
+              <input
+                type="text"
+                class="form-control"
+                name="valor"
+                ngModel
+                required
+                mask="separator.2"
+                thousandSeparator="."
+                decimalMarker=","
+                prefix="R$ "
+                [dropSpecialCharacters]="false"
+              />
+            </div>
+            <div class="modal-transactions__dialog__form__input-inline__input">
+              <label class="form-label">Data</label>
+              <input
+                type="date"
+                class="form-control"
+                name="data"
+                [ngModel]="dataHoje"
+                required
+              />
+            </div>
+          </div>
+          <div>
+            <label class="form-label">De</label>
+            <select class="form-select" name="bancoOrigem" ngModel required>
+              <option [ngValue]="null" disabled>Selecione um Banco</option>
+              <option *ngFor="let banco of bancos" [value]="banco._id">
+                {{ banco.nome }}
+              </option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Categoria</label>
+            <select class="form-select" name="categoria" ngModel required>
+              <option [ngValue]="null" disabled>Selecione uma categoria</option>
+              <option *ngFor="let categoria of categoriasFiltradas" [value]="categoria._id">
+  {{ categoria.nome }}
+</option>
+            </select>
+          </div>
+          <div class="modal-transactions__dialog__form__button">
+            <button
+              type="button"
+              (click)="onClose()"
+              class="btn modal-transactions__dialog__form__button__cancel"
+              [disabled]="isSaving"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="btn modal-transactions__dialog__form__button__confirm"
+              [disabled]="despesaForm.invalid"
+            >
+              Salvar
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div *ngSwitchCase="'transferencia'">
+        <form
+          #transferenciaForm="ngForm"
+          (ngSubmit)="salvarTransacao(transferenciaForm)"
+          class="modal-transactions__dialog__form"
+          novalidate
+        >
+          <div>
+            <label class="form-label">De</label>
+            <select class="form-select" name="bancoOrigem" ngModel required>
+              <option [ngValue]="null" disabled>
+                Selecione um banco de origem
+              </option>
+              <option *ngFor="let banco of bancos" [value]="banco._id">
+                {{ banco.nome }}
+              </option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Para</label>
+            <select class="form-select" name="bancoDestino" ngModel required>
+              <option [ngValue]="null" disabled>
+                Selecione um banco de destino
+              </option>
+              <option *ngFor="let banco of bancos" [value]="banco._id">
+                {{ banco.nome }}
+              </option>
+            </select>
+          </div>
+          <div class="modal-transactions__dialog__form__input-inline">
+            <div class="modal-transactions__dialog__form__input-inline__input">
+              <label class="form-label">Valor</label>
+              <input
+                type="text"
+                class="form-control"
+                name="valor"
+                ngModel
+                required
+                mask="separator.2"
+                thousandSeparator="."
+                decimalMarker=","
+                prefix="R$ "
+                [dropSpecialCharacters]="false"
+              />
+            </div>
+            <div class="modal-transactions__dialog__form__input-inline__input">
+              <label class="form-label">Data</label>
+              <input
+                type="date"
+                class="form-control"
+                name="data"
+                [ngModel]="dataHoje"
+                required
+              />
+            </div>
+          </div>
+
+          <div
+            *ngIf="transferenciaForm.value.bancoOrigem && transferenciaForm.value.bancoOrigem === transferenciaForm.value.bancoDestino"
+            class="text-danger small mt-2"
+          >
+            A conta de origem e destino não podem ser a mesma.
+          </div>
+          <div class="modal-transactions__dialog__form__button">
+            <button
+              type="button"
+              (click)="onClose()"
+              class="btn modal-transactions__dialog__form__button__cancel"
+              [disabled]="isSaving"
+            >
+              Cancelar
+            </button>
+
+            <button
+              type="submit"
+              class="btn modal-transactions__dialog__form__button__confirm"
+              [disabled]="transferenciaForm.invalid || transferenciaForm.value.bancoOrigem === transferenciaForm.value.bancoDestino"
+            >
+              Salvar
+            </button>
+          </div>
+        </form>
+      </div>
+    </ng-container>
+  </div>
+</div>

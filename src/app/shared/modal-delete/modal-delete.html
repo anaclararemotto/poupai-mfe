@@ -1,0 +1,16 @@
+<div class="modal modal-delete" [ngClass]="{'is-active': show}">
+  <div class="modal-delete__dialog" role="document">
+    <div class="modal-delete__dialog__header">
+      <button type="button" class="btn-close" (click)="onClose()"></button>
+    </div>
+
+    <div>
+      <p class="modal-delete__dialog__body">Você tem certeza que deseja excluir?</p>
+    </div>
+
+    <div class="modal-delete__dialog__button">
+      <button class="btn modal-delete__dialog__button__cancel" (click)="onClose()">Cancelar</button>
+      <button class="btn modal-delete__dialog__button__confirm" (click)="onConfirm()">Confirmar</button>
+    </div>
+  </div>
+</div>

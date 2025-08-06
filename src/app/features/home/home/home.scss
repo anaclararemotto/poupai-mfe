@@ -2,31 +2,30 @@
 
 .home {
   padding: 3.125rem 1.875rem;
-  
-    height: 100vh; 
+  font-family: $font-poppins;
+  min-height: 100vh;
 }
 
 @include respond(md) {
   .home {
-    padding: 0px 3.125rem;
+    padding: 0rem 3.125rem;
     display: flex;
     flex-direction: column;
-    
+
     > main {
       flex-grow: 1;
     }
     &__content {
-      border-radius: 16px;
+      border-radius: 1rem;
       background-color: $blue-500;
-      padding: 20px;
+      padding: 1.25rem;
       &__info-actions {
         display: flex;
 
-      
-        &__actions{
+        &__actions {
           width: 50%;
         }
-        &__info{
+        &__info {
           width: 50%;
         }
       }
@@ -35,6 +34,6 @@
 }
 @include respond(lg) {
   .home {
-    padding: 0px 10.625rem;
+    padding: 0rem 10.625rem;
   }
 }

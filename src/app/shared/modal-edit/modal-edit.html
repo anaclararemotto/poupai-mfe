@@ -1,0 +1,102 @@
+<div class="modal modal-edit" [ngClass]="{'is-active': show}">
+  <div class="modal-edit__dialog" role="document">
+    <div class="modal-edit__dialog__header">
+      <h5 class="modal-edit__dialog__header__title">{{ editForm.get('tipo')?.value | titlecase }}</h5>
+      <button type="button" class="btn-close" (click)="onClose()"></button>
+    </div>
+
+    <div>
+      <form class="modal-edit__dialog__form" [formGroup]="editForm" (ngSubmit)="onSave()">
+        <ng-container [ngSwitch]="editForm.get('tipo')?.value">
+
+          <div *ngSwitchCase="'transferencia'">
+            <div *ngIf="transaction">
+              <div>
+                <label class="form-label">De</label>
+                <select class="form-select" formControlName="bancoOrigem">
+                  <option [value]="null" disabled>Selecione um banco</option>
+                  <option *ngFor="let bank of bancos" [value]="bank._id">
+                    {{ bank.nome }}
+                  </option>
+                </select>
+              </div>
+              <div>
+                <label class="form-label">Para</label>
+                <select class="form-select" formControlName="bancoDestino">
+                  <option [value]="null" disabled>Selecione um banco</option>
+                  <option *ngFor="let bank of bancos" [value]="bank._id">
+                    {{ bank.nome }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div *ngSwitchCase="'despesa'">
+            <div *ngIf="transaction">
+              <div>
+                <label class="form-label">De</label>
+                <select class="form-select" formControlName="bancoOrigem">
+                  <option [value]="null" disabled>Selecione um banco</option>
+                  <option *ngFor="let bank of bancos" [value]="bank._id">
+                    {{ bank.nome }}
+                  </option>
+                </select>
+              </div>
+              <div>
+                <label class="form-label">Categoria</label>
+                <select class="form-select" formControlName="categoria">
+                  <option [value]="null" disabled>Selecione uma categoria</option>
+                  <option *ngFor="let cat of categorias" [value]="cat._id">
+                    {{ cat.nome }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div *ngSwitchCase="'receita'">
+             <div *ngIf="transaction">
+                <div>
+                  <label class="form-label">Para</label>
+                  <select class="form-select" formControlName="bancoDestino">
+                    <option [value]="null" disabled>Selecione um banco</option>
+                    <option *ngFor="let bank of bancos" [value]="bank._id">
+                      {{ bank.nome }}
+                    </option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label">Categoria</label>
+                  <select class="form-select" formControlName="categoria">
+                    <option [value]="null" disabled>Selecione uma categoria</option>
+                    <option *ngFor="let cat of categorias" [value]="cat._id">
+                      {{ cat.nome }}
+                    </option>
+                  </select>
+                </div>
+            </div>
+          </div>
+
+          <div *ngSwitchDefault>Tipo desconhecido.</div>
+        </ng-container>
+
+        <div class="modal-edit__dialog__form__input-inline">
+            <div class="modal-edit__dialog__form__input-inline__input">
+              <label class="form-label">Valor</label>
+              <input type="text" class="form-control modal-edit__dialog__form__input-inline__first" formControlName="valor" mask="separator.2" thousandSeparator="." decimalMarker="," prefix="R$ " [dropSpecialCharacters]="false" />
+            </div>
+            <div class="modal-edit__dialog__form__input-inline__input">
+              <label class="form-label">Data</label>
+              <input type="date" class="form-control modal-edit__dialog__form__input-inline__input__second" formControlName="data" />
+            </div>
+        </div>
+
+        <div class="modal-edit__dialog__form__button">
+          <button type="button" (click)="onClose()" class="btn modal-edit__dialog__form__button__cancel">Cancelar</button>
+          <button type="submit" class="btn modal-edit__dialog__form__button__edit">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

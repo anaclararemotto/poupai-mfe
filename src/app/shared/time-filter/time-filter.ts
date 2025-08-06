@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-time-filter',
@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
   styleUrl: './time-filter.scss',
 })
 export class TimeFilter {
-  selectedIndex = 0;
+  selectedIndex = 0; 
 
   options = [
     'Última semana',
@@ -19,8 +19,11 @@ export class TimeFilter {
     'Último ano',
   ];
 
+  @Output() filterChange = new EventEmitter<number>();
+
   selectOption(index: number): void {
-  console.log('Selecionado:', index);
-  this.selectedIndex = index;
-}
+    this.selectedIndex = index;
+    this.filterChange.emit(index);
+    console.log('Evento de filtro emitido com índice:', index);
+  }
 }

@@ -1,14 +1,25 @@
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { SharedRoutingModule } from './shared-routing-module';
+import { ModalTransactions } from './modal-transactions/modal-transactions'; 
+
+
 
 
 @NgModule({
-  declarations: [],
+ 
+  declarations: [], 
   imports: [
     CommonModule,
-    SharedRoutingModule
+    SharedRoutingModule,
+    ModalTransactions 
+  ],
+  exports: [
+    ModalTransactions
   ]
 })
 export class SharedModule { }
+
+

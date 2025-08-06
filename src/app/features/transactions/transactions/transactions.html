@@ -1,11 +1,37 @@
-<app-navbar/>
+<app-navbar />
 <section class="transactions">
   <app-transactions-account />
-  <app-time-filter />
-  <app-card-transactions />
-  <app-card-transactions />
-  <app-card-transactions />
-  <app-card-transactions />
-  <app-transactions-button class="transactions__button"/>
+  <app-time-filter (filterChange)="onFilterChange($event)"/>
+  <app-card-transactions
+    *ngFor="let t of filteredTransactions"
+    [transaction]="t"
+    (edit)="onEditTransaction($event)"
+    (view)="openViewModal($event)"
+    (delete)="onDeleteTransaction($event)"
+  ></app-card-transactions>
+
+  <app-modal-edit
+    *ngIf="showEditModal"
+  [show]="showEditModal"
+  [transaction]="selectedTransaction"
+  (close)="closeEditModal()"
+  (save)="onSaveEditedTransaction($event)"
+  ></app-modal-edit>
+  <app-modal-view
+    *ngIf="showViewModal"
+    [show]="showViewModal"
+    [selectedTransaction]="selectedTransaction"
+    (close)="closeViewModal()"
+  ></app-modal-view>
+  <app-modal-delete
+    *ngIf="showDeleteModal"
+    [show]="showDeleteModal"
+    [selectedTransaction]="selectedTransaction"
+    (close)="closeDeleteModal()"
+    (confirm)="onConfirmDelete()"
+    
+  ></app-modal-delete>
+
+  <app-transactions-button class="transactions__button" />
 </section>
-<app-footer/>
+<app-footer class="footer" />

@@ -1,0 +1,81 @@
+<div class="modal modal-view" [ngClass]="{'is-active': show}">
+  <div class="modal-view__dialog" role="document">
+    <div class="modal-view__dialog__header">
+      <h5 class="modal-view__dialog__header__title">
+        {{ transactionType | titlecase }}
+      </h5>
+      <button type="button" class="btn-close" (click)="onClose()"></button>
+    </div>
+
+    <div class="modal-view__dialog__body">
+      <ng-container [ngSwitch]="transactionType">
+        <div *ngSwitchCase="'transferencia'">
+          <div class="modal-view__dialog__content">
+            <div class="modal-view__dialog__content__text">
+              <p class="modal-view__dialog__content__text__title">Saiu de</p>
+              <p>{{ getPopulatedName(selectedTransaction?.bancoOrigem) }}</p>
+            </div>
+            <div class="modal-view__dialog__content__text">
+              <p class="modal-view__dialog__content__text__title">Para</p>
+              <p>{{ getPopulatedName(selectedTransaction?.bancoDestino) }}</p>
+            </div>
+            <div class="modal-view__dialog__content__text">
+              <p class="modal-view__dialog__content__text__title">Valor</p>
+              <p>R$ {{ selectedTransaction?.valor | number:'1.2-2':'pt' }}</p>
+            </div>
+            <div class="modal-view__dialog__content__text">
+              <p class="modal-view__dialog__content__text__title">Data</p>
+              <p>{{ selectedTransaction?.data | date:'dd/MM/yyyy' }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div *ngSwitchCase="'despesa'">
+          <div class="modal-view__dialog__content">
+            <div class="modal-view__dialog__content__text">
+              <p class="modal-view__dialog__content__text__title">Saiu de</p>
+              <p>{{ getPopulatedName(selectedTransaction?.bancoOrigem) }}</p>
+            </div>
+            <div class="modal-view__dialog__content__text">
+              <p class="modal-view__dialog__content__text__title">Categoria</p>
+              <p>{{ getPopulatedName(selectedTransaction?.categoria) }}</p>
+            </div>
+            <div class="modal-view__dialog__content__text">
+              <p class="modal-view__dialog__content__text__title">Valor</p>
+              <p>R$ {{ selectedTransaction?.valor | number:'1.2-2':'pt' }}</p>
+            </div>
+            <div class="modal-view__dialog__content__text">
+              <p class="modal-view__dialog__content__text__title">Data</p>
+              <p>{{ selectedTransaction?.data | date:'dd/MM/yyyy' }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div *ngSwitchCase="'receita'">
+          <div class="modal-view__dialog__content">
+            <div class="modal-view__dialog__content__text">
+              <p class="modal-view__dialog__content__text__title">Para</p>
+              <p>{{ getPopulatedName(selectedTransaction?.bancoDestino) }}</p>
+            </div>
+            <div class="modal-view__dialog__content__text">
+              <p class="modal-view__dialog__content__text__title">Categoria</p>
+              <p>{{ getPopulatedName(selectedTransaction?.categoria) }}</p>
+            </div>
+            <div class="modal-view__dialog__content__text">
+              <p class="modal-view__dialog__content__text__title">Valor</p>
+              <p>R$ {{ selectedTransaction?.valor | number:'1.2-2':'pt' }}</p>
+            </div>
+            <div class="modal-view__dialog__content__text">
+              <p class="modal-view__dialog__content__text__title">Data</p>
+              <p>{{ selectedTransaction?.data | date:'dd/MM/yyyy' }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div *ngSwitchDefault>
+          <p>Detalhes da transação não disponíveis para este tipo.</p>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

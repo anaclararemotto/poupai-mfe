@@ -1,0 +1,58 @@
+@use "../../../styles/base/index" as *;
+
+.modal-view {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+
+  &.is-active {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &__dialog {
+    width: 18.75rem;
+    border-radius: 0.5rem;
+    background-color: $white;
+    padding: 1.875rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &__title {
+        @include font-heading-6;
+      }
+    }
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+
+      &__text {
+        display: flex;
+        justify-content: space-between;
+
+        &__title {
+          @include font-heading-5;
+        }
+      }
+    }
+  }
+}

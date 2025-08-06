@@ -3,14 +3,14 @@
 .account-card {
   background-color: $blue-500;
   padding: 1.25rem;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   &__content {
     display: flex;
 
     &__info {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 0.3125rem;
       width: 70%;
 
       &__name {

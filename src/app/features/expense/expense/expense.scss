@@ -1,0 +1,23 @@
+@use "../../../../styles/base/index" as *;
+
+.expense {
+  padding: 3.125rem 1.875rem;
+  min-height: 100vh;
+  font-family: $font-poppins;
+
+}
+
+@include respond(md) {
+  .expense {
+    padding: 0rem 3.125rem;
+   
+    &__button{
+        display: none;
+    }
+  }
+}
+@include respond(lg) {
+  .expense {
+    padding: 0rem 10.625rem;
+  }
+}

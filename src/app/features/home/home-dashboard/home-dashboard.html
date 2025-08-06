@@ -1,1 +1,23 @@
-<p>home-dashboard works!</p>
+<div class="graficos-container">
+  <div class="grafico-card">
+    <div class="grafico-header">
+      <h2>Total Receita</h2>
+      <span class="valor-receita">R$ {{ totalReceitaMes | number:'1.2-2' }}</span>
+    </div>
+    <canvas baseChart [data]="receitasChartData" [type]="doughnutChartType"
+      [options]="doughnutChartOptions">
+    </canvas>
+    <p *ngIf="receitasChartData.datasets[0].data.length === 0">Nenhum dado de receita disponível para o mês.</p>
+  </div>
+
+  <div class="grafico-card">
+    <div class="grafico-header">
+      <h2>Total Despesa</h2>
+      <span class="valor-despesa">R$ {{ totalDespesaMes | number:'1.2-2' }}</span>
+    </div>
+    <canvas baseChart [data]="despesasChartData"  [type]="doughnutChartType"
+      [options]="doughnutChartOptions">
+    </canvas>
+    <p *ngIf="despesasChartData.datasets[0].data.length === 0">Nenhum dado de despesa disponível para o mês.</p>
+  </div>
+</div>
