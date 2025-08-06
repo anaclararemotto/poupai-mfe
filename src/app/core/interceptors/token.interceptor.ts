@@ -1,14 +1,14 @@
 import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandlerFn,
   HttpInterceptorFn,
   HttpRequest,
-  HttpHandlerFn,
-  HttpEvent,
-  HttpErrorResponse,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { AuthService } from '../services/auth.service';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { throwError, Observable } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 export const tokenInterceptorFn: HttpInterceptorFn = (
   req: HttpRequest<unknown>,

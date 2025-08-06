@@ -1,15 +1,18 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
+import { Banco } from '../../../core/services/banco.service';
+import { Categoria } from '../../../core/services/categoria.service';
+import { Conta, ContaService } from '../../../core/services/conta.service';
+import {
+  Transacao,
+  TransacoesService,
+} from '../../../core/services/transacoes.service';
 import { Actions } from '../../../shared/actions/actions';
 import { CardInfo } from '../../../shared/card-info/card-info';
 import { ModalStatement } from '../../../shared/modal-statement/modal-statement';
 import { ModalTransactions } from '../../../shared/modal-transactions/modal-transactions';
-import { Categoria } from '../../../core/services/categoria.service';
-import { Banco } from '../../../core/services/banco.service';
-import { Transacao, TransacoesService } from '../../../core/services/transacoes.service';
-import { Conta, ContaService } from '../../../core/services/conta.service';
-import { CommonModule } from '@angular/common';
-import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-expense-account',
@@ -60,19 +63,22 @@ export class ExpenseAccount implements OnInit {
 
   loadTransactions() {
     this.isLoadingTransactions = true;
-    this.transacoesService.listarTransacoes().pipe(
-      finalize(() => {
-        this.isLoadingTransactions = false;
-      })
-    ).subscribe({
-      next: (data) => {
-        this.transacoes = data;
-        console.log('Transações carregadas:', this.transacoes);
-      },
-      error: (err) => {
-        console.error('Erro ao carregar transações', err);
-      },
-    });
+    this.transacoesService
+      .listarTransacoes()
+      .pipe(
+        finalize(() => {
+          this.isLoadingTransactions = false;
+        })
+      )
+      .subscribe({
+        next: (data) => {
+          this.transacoes = data;
+          console.log('Transações carregadas:', this.transacoes);
+        },
+        error: (err) => {
+          console.error('Erro ao carregar transações', err);
+        },
+      });
   }
 
   openModal(tipo: 'receita' | 'despesa' | 'transferencia') {

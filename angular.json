@@ -82,6 +82,7 @@
           },
           "configurations": {
             "production": {
+              "outputPath": "dist/mfe/browser",
               "budgets": [
                 {
                   "type": "initial",
@@ -97,6 +98,7 @@
               "outputHashing": "all"
             },
             "development": {
+              "outputPath": "dist/mfe/browser",
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true

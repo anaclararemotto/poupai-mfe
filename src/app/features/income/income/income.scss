@@ -4,15 +4,14 @@
   padding: 3.125rem 1.875rem;
   min-height: 100vh;
   font-family: $font-poppins;
-
 }
 
 @include respond(md) {
   .income {
     padding: 0rem 3.125rem;
-   
-    &__button{
-        display: none;
+
+    &__button {
+      display: none;
     }
   }
 }

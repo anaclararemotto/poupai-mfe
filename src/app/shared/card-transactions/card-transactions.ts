@@ -1,10 +1,7 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Categoria } from '../../core/services/categoria.service';
-import {
-  Transacao,
-  TransacoesService,
-} from '../../core/services/transacoes.service';
 
 @Component({
   selector: 'app-card-transactions',
@@ -13,25 +10,29 @@ import {
   styleUrl: './card-transactions.scss',
 })
 export class CardTransactions {
-  @Input() transaction: any; 
+  @Input() transaction: any;
   @Output() edit = new EventEmitter<any>();
   @Output() view = new EventEmitter<any>();
-  @Output() delete = new EventEmitter<any>(); 
-  categorias: Categoria[] = []; 
+  @Output() delete = new EventEmitter<any>();
+  categorias: Categoria[] = [];
+  previewUrl: string | null = null;
 
+  modalOpen = false;
+  modalImgSrc: string | null = null;
+
+  constructor(private http: HttpClient) {}
 
   onEdit() {
     this.edit.emit(this.transaction);
   }
 
   onViewClick(): void {
-    this.view.emit(this.transaction); 
+    this.view.emit(this.transaction);
   }
 
   onDelete() {
     this.delete.emit(this.transaction);
   }
-
 
   getIconClass(tipo: string): string {
     switch (tipo) {
@@ -73,5 +74,41 @@ export class CardTransactions {
   formatarValor(valor: number): string {
     if (valor == null) return '';
     return valor.toFixed(2).replace('.', ',');
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) return;
+
+    const file = input.files[0];
+
+    const formData = new FormData();
+    formData.append('arquivo', file);
+    formData.append('transacaoId', this.transaction._id);
+
+    this.http
+      .post<{ imgPath: string }>('http://localhost:4000/upload', formData)
+      .subscribe({
+        next: (res) => {
+          console.log('Imagem salva:', res.imgPath);
+          this.transaction.imgPath = res.imgPath;
+        },
+        error: (err) => console.error('Erro no upload', err),
+      });
+  }
+
+  getImageUrl(imgPath: string): string {
+    if (!imgPath) return '';
+    return imgPath ? `http://localhost:4000/${imgPath}` : '';
+  }
+
+  openModal(imgPath: string) {
+    this.modalImgSrc = this.getImageUrl(imgPath);
+    this.modalOpen = true;
+  }
+
+  closeModal() {
+    this.modalOpen = false;
+    this.modalImgSrc = null;
   }
 }

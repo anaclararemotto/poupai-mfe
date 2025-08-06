@@ -5,20 +5,19 @@ import { Component, EventEmitter, Output } from '@angular/core';
   selector: 'app-actions',
   imports: [CommonModule],
   templateUrl: './actions.html',
-  styleUrl: './actions.scss'
+  styleUrl: './actions.scss',
 })
 export class Actions {
   @Output() statement = new EventEmitter<void>();
-  @Output() abrirModal = new EventEmitter<'receita' | 'despesa' | 'transferencia'>();
+  @Output() abrirModal = new EventEmitter<
+    'receita' | 'despesa' | 'transferencia'
+  >();
 
   abrir(tipo: 'receita' | 'despesa' | 'transferencia') {
     this.abrirModal.emit(tipo);
   }
 
-  onStatement(){
+  onStatement() {
     this.statement.emit();
   }
-
-  
-
 }

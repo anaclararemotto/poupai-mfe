@@ -54,9 +54,12 @@
             <label class="form-label">Categoria</label>
             <select class="form-select" name="categoria" ngModel required>
               <option [ngValue]="null" disabled>Selecione uma categoria</option>
-              <option *ngFor="let categoria of categoriasFiltradas" [value]="categoria._id">
-  {{ categoria.nome }}
-</option>
+              <option
+                *ngFor="let categoria of categoriasFiltradas"
+                [value]="categoria._id"
+              >
+                {{ categoria.nome }}
+              </option>
             </select>
           </div>
           <div class="modal-transactions__dialog__form__button">
@@ -126,9 +129,12 @@
             <label class="form-label">Categoria</label>
             <select class="form-select" name="categoria" ngModel required>
               <option [ngValue]="null" disabled>Selecione uma categoria</option>
-              <option *ngFor="let categoria of categoriasFiltradas" [value]="categoria._id">
-  {{ categoria.nome }}
-</option>
+              <option
+                *ngFor="let categoria of categoriasFiltradas"
+                [value]="categoria._id"
+              >
+                {{ categoria.nome }}
+              </option>
             </select>
           </div>
           <div class="modal-transactions__dialog__form__button">

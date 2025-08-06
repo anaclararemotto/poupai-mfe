@@ -5,13 +5,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   selector: 'app-modal-delete',
   imports: [CommonModule],
   templateUrl: './modal-delete.html',
-  styleUrl: './modal-delete.scss'
+  styleUrl: './modal-delete.scss',
 })
 export class ModalDelete {
-@Input() show: boolean = false;
-  @Input() selectedTransaction: any; 
+  @Input() show: boolean = false;
+  @Input() selectedTransaction: any;
   @Output() close = new EventEmitter<void>();
-  @Output() confirm = new EventEmitter<void>(); 
+  @Output() confirm = new EventEmitter<void>();
 
   onConfirm() {
     this.confirm.emit();

@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap, catchError, BehaviorSubject, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { Usuario } from './usuario.service';
 @Injectable({
   providedIn: 'root',
@@ -68,6 +68,10 @@ export class AuthService {
     return !!this.token;
   }
 
+  isAuthenticatedUser(): boolean {
+    return this.isLoggedIn;
+  }
+
   login(dados: { email: string; senha: string }): Observable<any> {
     return this.http
       .post<{ token: string; usuario: Usuario }>(
@@ -93,12 +97,11 @@ export class AuthService {
   }
 
   logout(): void {
-    console.log(
-      'DEBUG AuthService: Realizando logout. Limpando todo o estado...'
-    );
+    console.log('DEBUG AuthService: Logout iniciado no MFE');
     localStorage.removeItem('token');
     this._currentToken.next(null);
     this._currentUser.next(null);
-    this.router.navigate(['/login']);
+
+    window.location.href = 'http://localhost:4200/login';
   }
 }

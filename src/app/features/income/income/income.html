@@ -3,26 +3,26 @@
   <app-income-account />
   <app-time-filter />
   <app-card-transactions
-  *ngFor="let t of filteredTransactions"
-  [transaction]="t"
-  (edit)="onEditTransaction($event)"
-  (view)="openViewModal($event)"
-  (delete)="onDeleteTransaction($event)"
-></app-card-transactions>
-<app-modal-edit
+    *ngFor="let t of filteredTransactions"
+    [transaction]="t"
+    (edit)="onEditTransaction($event)"
+    (view)="openViewModal($event)"
+    (delete)="onDeleteTransaction($event)"
+  ></app-card-transactions>
+  <app-modal-edit
     *ngIf="showEditModal"
-  [show]="showEditModal"
-  [transaction]="selectedTransaction"
-  (close)="closeEditModal()"
-  (save)="onSaveEditedTransaction($event)"
+    [show]="showEditModal"
+    [transaction]="selectedTransaction"
+    (close)="closeEditModal()"
+    (save)="onSaveEditedTransaction($event)"
   ></app-modal-edit>
   <app-modal-view
     *ngIf="showViewModal"
-    [show]="showViewModal" 
+    [show]="showViewModal"
     [selectedTransaction]="selectedTransaction"
     (close)="closeViewModal()"
   ></app-modal-view>
-    <app-modal-delete
+  <app-modal-delete
     *ngIf="showDeleteModal"
     [show]="showDeleteModal"
     [selectedTransaction]="selectedTransaction"

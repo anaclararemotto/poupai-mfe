@@ -5,12 +5,24 @@
     </div>
 
     <div>
-      <p class="modal-delete__dialog__body">Você tem certeza que deseja excluir?</p>
+      <p class="modal-delete__dialog__body">
+        Você tem certeza que deseja excluir?
+      </p>
     </div>
 
     <div class="modal-delete__dialog__button">
-      <button class="btn modal-delete__dialog__button__cancel" (click)="onClose()">Cancelar</button>
-      <button class="btn modal-delete__dialog__button__confirm" (click)="onConfirm()">Confirmar</button>
+      <button
+        class="btn modal-delete__dialog__button__cancel"
+        (click)="onClose()"
+      >
+        Cancelar
+      </button>
+      <button
+        class="btn modal-delete__dialog__button__confirm"
+        (click)="onConfirm()"
+      >
+        Confirmar
+      </button>
     </div>
   </div>
 </div>

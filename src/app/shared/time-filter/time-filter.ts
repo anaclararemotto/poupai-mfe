@@ -8,7 +8,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrl: './time-filter.scss',
 })
 export class TimeFilter {
-  selectedIndex = 0; 
+  selectedIndex = 0;
 
   options = [
     'Última semana',

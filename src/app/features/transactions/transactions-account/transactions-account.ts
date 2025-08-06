@@ -1,12 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Conta, ContaService } from '../../../core/services/conta.service';
+import {
+  Transacao,
+  TransacoesService,
+} from '../../../core/services/transacoes.service';
 import { Actions } from '../../../shared/actions/actions';
 import { CardInfo } from '../../../shared/card-info/card-info';
 import { ModalStatement } from '../../../shared/modal-statement/modal-statement';
 import { ModalTransactions } from '../../../shared/modal-transactions/modal-transactions';
-import { Conta, ContaService } from '../../../core/services/conta.service';
-import { Transacao, TransacoesService } from '../../../core/services/transacoes.service';
 
 @Component({
   selector: 'app-transactions-account',
@@ -18,8 +21,7 @@ import { Transacao, TransacoesService } from '../../../core/services/transacoes.
 export class TransactionsAccount implements OnInit {
   showStatementModal = false;
   private router = inject(Router);
-transacoes: Transacao[] = [];
-
+  transacoes: Transacao[] = [];
 
   showModal = false;
   modalTipo: 'receita' | 'despesa' | 'transferencia' | null = null;
@@ -27,12 +29,12 @@ transacoes: Transacao[] = [];
 
   constructor(
     private contaService: ContaService,
-     private transacoesService: TransacoesService,
+    private transacoesService: TransacoesService
   ) {}
 
   ngOnInit(): void {
     this.loadConta();
-     this.loadTransacoes();
+    this.loadTransacoes();
   }
   reloadPage(): void {
     window.location.reload();
@@ -70,10 +72,10 @@ transacoes: Transacao[] = [];
     this.transacoesService.listarTransacoes().subscribe({
       next: (data) => {
         this.transacoes = data;
-        console.log("Transações carregadas:", this.transacoes);
+        console.log('Transações carregadas:', this.transacoes);
       },
       error: (err) => {
-        console.error("Erro ao carregar transações", err);
+        console.error('Erro ao carregar transações', err);
       },
     });
   }
